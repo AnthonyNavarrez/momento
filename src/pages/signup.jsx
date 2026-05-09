@@ -26,7 +26,7 @@ export function SignupPage() {
             login(res.data.token, res.data.user);
             navigate('/map')
 
-        } catch (err) {
+        } catch {
             setError("Invalid credentials")
         }
     };
