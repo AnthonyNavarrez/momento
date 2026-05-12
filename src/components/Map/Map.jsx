@@ -1,5 +1,6 @@
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet'
 import MapPin from './MapPin.jsx'
+import './Map.css'
 
 const LOS_ANGELES_COORDS = [34.0522, -118.2437]
 const DEMO_PINS = [
@@ -23,9 +24,9 @@ function MapClickLogger() {
 function Map() {
   return (
     <MapContainer
+      className='map-container'
       center={LOS_ANGELES_COORDS}
       zoom={12}
-      style={{ width: '100%', height: '100vh' }}
     >
       <TileLayer
         attribution='&copy; OpenStreetMap contributors'
