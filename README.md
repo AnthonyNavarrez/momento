@@ -1,16 +1,88 @@
-# React + Vite
+# Momento
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Momento is a photo-centric mapping application that helps users turn their memories into a visual exploration journal of Los Angeles. Users can upload photos, pin them to map locations, and revisit places they’ve explored through an interactive map experience.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- User authentication (signup/login)
+- Interactive Los Angeles map with React Leaflet
+- Photo uploads with location pinning
+- Map markers with popup previews
+- Protected routes and persistent login sessions
+- MongoDB-backed backend API
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Frontend
+- React
+- Vite
+- React Router
+- React Leaflet
+- Axios
 
-## Expanding the ESLint configuration
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
+- Multer
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Getting Started
+
+### Backend Setup
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+Create a `.env` file inside `server/`:
+
+```env
+PORT=5001
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+```
+
+### Frontend Setup
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+## Team Contributions
+
+| Sprint | Contributor |
+|---|---|
+| Backend Setup | Amy |
+| User Authentication | Ho Lok |
+| Frontend Map Integration | Ellen |
+| Photo Upload API | Gokul |
+| Frontend Layout & Routing | Anthony |
+
+## Current Progress
+
+Completed functionality includes:
+- Backend server and database setup
+- JWT-based authentication system
+- Interactive map integration
+- Photo upload API and storage
+- Frontend routing and auth pages
+
+## Planned Features
+
+- Personal exploration heatmaps
+- Community discovery heatmaps
+- Public photo browsing
+- Photo tagging and filtering
+- Search by location, date, or tags
+- Timeline and collection views
+
+## Inspiration
+
+Momento was created to help users organize memories geographically while also enabling authentic local discovery through community-shared experiences.
