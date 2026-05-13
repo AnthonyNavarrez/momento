@@ -31,26 +31,47 @@ Momento is a photo-centric mapping application that helps users turn their memor
 
 ## Getting Started
 
+### Prerequisites
+
+#### MongoDB Atlas Credentials
+
+This project uses MongoDB Atlas as its database. To get your credentials:
+
+1. Log in to [MongoDB Atlas](https://cloud.mongodb.com/)
+2. Navigate to the **momento-prod** cluster
+3. Go to **Database Access** in the left sidebar to find your username and password
+4. If you don't have a database user yet, ask a team member with admin access to create one for you
+
 ### Backend Setup
 
 ```bash
 cd server
 npm install
-npm run dev
 ```
 
 Create a `.env` file inside `server/`:
 
 ```env
-PORT=5001
+PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 ```
 
-### Frontend Setup
+- Set `MONGO_URI` to your Atlas connection string with your database username and password filled in
+- Set `JWT_SECRET` to a random string (you can generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`)
+
+Then start the server:
 
 ```bash
-cd client
+npm run dev
+```
+
+### Frontend Setup
+
+The frontend lives at the project root 
+
+```bash
+# From the project root
 npm install
 npm run dev
 ```
