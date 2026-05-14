@@ -77,6 +77,22 @@ npm install
 npm run dev
 ```
 
+## Testing
+
+E2E tests use **pytest** and hit the running Express server over HTTP.
+
+```bash
+# Install test dependencies (one-time)
+cd tests
+pip install -r requirements.txt
+
+# Run tests (backend must be running on port 5001)
+cd tests
+pytest -v
+```
+
+Test files follow the pattern `tests/test_sprint<N>_<feature>.py`. Shared fixtures (base URL, auth helpers) are in `tests/conftest.py`. To add tests for a new sprint, create a new test file — the fixtures are available automatically.
+
 ## Team Contributions
 
 | Sprint | Contributor |

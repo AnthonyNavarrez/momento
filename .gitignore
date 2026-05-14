@@ -23,7 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
-#claude project context 
+#claude project context
 35L__Project_plan__Initial_Schedule.txt
 
-
+# Python / pytest
+__pycache__/
+.pytest_cache/
+tests/venv/

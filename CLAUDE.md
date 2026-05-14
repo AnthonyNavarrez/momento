@@ -127,6 +127,22 @@ Frontend has no env vars. Vite proxies `/api` requests to `http://localhost:5000
 - Photo tagging & search/filter
 - UI polish & performance optimization
 
+## Testing
+
+E2E tests live in `tests/` and use pytest + requests to hit the running Express server.
+
+```bash
+# Install test dependencies (one-time)
+cd tests
+pip install -r requirements.txt
+
+# Run tests (requires backend running on port 5001)
+cd tests
+pytest -v
+```
+
+Test files follow the naming convention `test_sprint<N>_<feature>.py`. Shared fixtures (base URL, auth helpers) are in `conftest.py`.
+
 ## Sprint Docs
 
 Detailed implementation specs are in `sprints/`. Check the relevant sprint file before building a feature:
