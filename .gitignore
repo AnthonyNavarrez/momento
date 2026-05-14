@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#claude project context 
+35L__Project_plan__Initial_Schedule.txt
+
