@@ -52,11 +52,12 @@ npm install
 Create a `.env` file inside `server/`:
 
 ```env
-PORT=5000
+PORT=5001
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 ```
 
+- **Important:** Use `PORT=5001` (not 5000). On macOS, port 5000 is used by AirPlay Receiver and will cause 403 errors. The Vite proxy in `vite.config.js` is configured to forward `/api` requests to `localhost:5001`.
 - Set `MONGO_URI` to your Atlas connection string with your database username and password filled in
 - Set `JWT_SECRET` to a random string (you can generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`)
 
