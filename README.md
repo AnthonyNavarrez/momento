@@ -52,11 +52,12 @@ npm install
 Create a `.env` file inside `server/`:
 
 ```env
-PORT=5000
+PORT=5001
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 ```
 
+- **Important:** Use `PORT=5001` (not 5000). On macOS, port 5000 is used by AirPlay Receiver and will cause 403 errors. The Vite proxy in `vite.config.js` is configured to forward `/api` requests to `localhost:5001`.
 - Set `MONGO_URI` to your Atlas connection string with your database username and password filled in
 - Set `JWT_SECRET` to a random string (you can generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`)
 
@@ -75,6 +76,22 @@ The frontend lives at the project root
 npm install
 npm run dev
 ```
+
+## Testing
+
+E2E tests use **pytest** and hit the running Express server over HTTP.
+
+```bash
+# Install test dependencies (one-time)
+cd tests
+pip install -r requirements.txt
+
+# Run tests (backend must be running on port 5001)
+cd tests
+pytest -v
+```
+
+Test files follow the pattern `tests/test_sprint<N>_<feature>.py`. Shared fixtures (base URL, auth helpers) are in `tests/conftest.py`. To add tests for a new sprint, create a new test file — the fixtures are available automatically.
 
 ## Team Contributions
 
