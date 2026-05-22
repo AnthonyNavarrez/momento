@@ -1,0 +1,912 @@
+﻿Main
+https://github.com/echen078/momento
+Project Description: Momento
+Momento is an interactive, photo-centric mapping application that serves two complementary user needs: personal memory management and real-time discovery.
+Core Value Proposition:
+Users can build a personal visual record of everywhere they've explored in LA. They can upload photos they've taken, pinning them to exact map locations, and view their exploration patterns through a heatmap. This transforms scattered phone photos into a cohesive, searchable memory vault that answers "where have I been?" and "which neighborhoods have I explored the most?"
+Simultaneously, an LA map enables discovery without the noise. Instead of relying on dated reviews, influencer recommendations, or algorithm-driven content feeds, users can see a real-time heatmap of which spots people are actually visiting this week, a crowd-sourced indicator of what's worth exploring. When a neighborhood catches their eye, they can browse authentic photos from that area taken by other users, giving them a genuine sense of what's there before committing time to visit.
+
+
+Must Have
+* User Authentication — Sign up/login to create personal account and vault
+* Photo Upload with Location Selection — Users can upload photos and manually pin them to map locations
+* Personal Map — Display all user's uploaded photos pinned to LA map with visual markers
+* Basic Map Functionality — Pan, zoom, interact with the map interface
+Should Have
+* Personal Exploration Heatmap — Visualize which LA neighborhoods/areas the user has visited most (darker = more exploration)
+* Community Heatmap — Week-over-week aggregated heatmap showing where people are actively taking photos
+* Browse Public Photos — Users can explore and view public photos from other users on the map
+* Photo Tagging — Optional tags on uploaded photos (e.g., "cafe," "hiking," "park") for personal search/filtering
+* Search & Filter Personal Vault — Find photos by date, location, or tags
+Nice to Have
+* Trip Planner with Transit Info — View transit/navigation options for pinned locations
+* Photo Sharing Toggle — Users can opt-in to make individual photos public at upload time
+* Tap Heatmap Zones — Click on community heatmap areas to see public photos from that neighborhood
+* Photo Captions — Add optional descriptions to photos
+* Create Collections — Curate and organize public photos into themed collections
+* Timeline view (scroll through photos chronologically)
+* Share Personal Map — Generate shareable link to personal exploration map
+
+
+User Stories
+Must haves (By week 5)
+User story 1: User Authentication (Signup/Login)
+As a user, I want to sign up for an account and log in so that I can securely access my personal photo map and saved uploads.
+Acceptance Criteria
+* Given I do not have an account, when I enter valid sign-up information, then my account is created and I am logged into the app.
+* Given I already have an account, when I enter the correct login credentials, then I am logged into the app.
+* Given I enter incorrect login credentials, when I try to log in, then I see an error message and am not logged in.
+* Given I am logged in, when I click log out, then I am logged out and returned to the login screen.
+
+
+INVEST Violations
+* Not Independent: This story combines sign-up and login into one story, so those parts cannot be developed and released fully independently of each other.
+
+
+User story 2: Photo Upload with Location Pinning
+As a logged-in user, I want to upload a photo and pin it to a specific map location so that I can remember where I took it and save it to my personal map.
+Acceptance Criteria
+* Given I am logged in, when I select a photo file from my device, then the app allows me to begin the upload process.
+* Given I am uploading a photo, when I choose a location on the map, then that location is attached to the photo.
+* Given I upload a valid photo and select a location, when I submit the upload, then the photo is saved successfully with its associated coordinates.
+* Given the upload is successful, when I return to my map, then the uploaded photo appears as a pin at the selected location.
+* Given I upload an unsupported file type (non JPEG, PNG, or HEIC) or the upload fails, when I submit the photo, then I see an error message and the photo is not saved.
+
+
+INVEST Violations
+* Not Independent: Depends on User Story 1, since a user must be logged in before uploading and saving a photo.
+
+
+User story 3: View Personal Map with Photo Pins
+As a logged-in user, I want to view my uploaded photos as pins on a map so that I can see where I have been and revisit my memories visually.
+Acceptance Criteria
+* Given I am logged in and have uploaded photos, when I open my personal map, then I see my saved photos displayed as pins in their correct locations.
+* Given the map is open, when I pan or zoom, then the map responds correctly and keeps the pins visible in the right places.
+* Given I click on a photo pin, when the pin is selected, then I see the associated photo details in a popup or modal.
+* Given I upload a new photo with a location, when I refresh or return to the map, then the new pin appears on the map.
+* Given I have no uploaded photos yet, when I open my personal map, then I see an empty map state rather than an error.
+
+
+Should haves (By week 7)
+User Story 4: Personal Exploration Heatmap
+As a logged-in user, I want to see and toggle a heatmap of where I’ve taken the most photos so that I can understand my exploration patterns across LA.
+(Dependency: Requires User Story 3 – personal map with stored photo locations)
+
+
+Acceptance Criteria
+* Given I have uploaded multiple photos, when I open my map, then I see a heatmap overlay representing areas with higher photo density.
+* Given areas with more photos, when the heatmap renders, then those areas appear darker or more intense in color.
+* Given I toggle the heatmap on/off, when I switch views, then the map updates accordingly without losing photo pins.
+* Given I have very few or no photos, when I view the heatmap, then the visualization reflects low or no activity without errors.
+
+
+User Story 5: Photo Tagging
+As a logged-in user, I want to add tags to my uploaded photos so that I can organize and find my memories more easily.
+(Dependency: Requires User Story 2 – photo upload)
+
+
+Acceptance Criteria
+* Given I am uploading a photo, when I enter tags, then those tags are saved with the photo.
+* Given I have previously uploaded photos, when I edit a photo, then I can add or remove tags.
+* Given a photo has tags, when I view the photo details, then I see all associated tags displayed.
+* Given I enter multiple tags, when I save the photo, then all tags are stored correctly.
+* Given I enter an empty or invalid tag, when I try to save it, then I see an error and the tag is not saved.
+
+
+User Story 6: Search & Filter Personal Photos
+As a logged-in user, I want to search and filter my photos by tags, date, or location so that I can quickly find specific memories.
+(Dependency: Requires User Story 5 – tagging and stored metadata)
+
+
+Acceptance Criteria
+* Given I have multiple photos, when I search by a tag, then only photos with that tag are displayed.
+* Given I filter by date range, when I apply the filter, then only photos within that range appear.
+* Given I filter by location, when I select an area, then only photos from that area are shown.
+* Given no photos match my filters, when I apply the search, then I see an empty state instead of an error.
+
+
+INVEST Violations
+* Not Independent: Depends on User Story 5 (tagging), User Story 2 (photo data), and aUser Story 3 (stored location data for location filtering).
+Nice to haves (By week 9)
+User Story 8: Photo Sharing Toggle
+As a logged-in user, I want to choose whether my uploaded photos are public or private so that I can control what I share with others.
+
+
+Acceptance Criteria
+* Given I upload a photo, when I toggle sharing on, then the photo is marked as public.
+* Given I upload a photo, when I leave sharing off, then the photo remains private.
+* Given I change a photo’s sharing setting later, when I update it, then the visibility updates accordingly.
+
+
+User Story 9: Community Heatmap
+As a logged-in member, I want to see a community heatmap of where people are taking photos so that I can discover trending locations.
+
+
+Acceptance Criteria
+* Given data is aggregated weekly, when I view the heatmap, then it reflects activity from the past 7 days.
+* Given data is aggregated weekly, when I view the heatmap, then it reflects recent activity.
+* Given I toggle between personal and community heatmaps, when I switch, then the map updates correctly.
+
+
+INVEST Violations
+* Not Independent: Depends on public photo data (User Story 8 and backend aggregation).
+
+
+Intermediate Milestones (3)
+Milestone 1: Core Personal Vault (End of Week 5)
+Goal: Working authentication and basic personal photo mapping.
+* User signup/login (email + password or Google Sign-In)
+* Upload photos + manually select location on map
+* Display personal map with photo pins
+* Basic map interface (pan, zoom, click pins to view photo details)
+Running Code Demo: User can log in, upload a photo, pin it to their map, and see it displayed.
+Milestone 2: Exploration Insights & Photo Metadata (End of Week 7)
+Goal: Complete personal vault with heatmap, search, and tagging; infrastructure ready for community features.
+* Personal exploration heatmap (show neighborhoods with most photos)
+* Photo tagging system (users can add optional tags at upload)
+* Search/filter personal photos (by date, location, tags)
+* Backend infrastructure for storing and querying public photo data (weekly aggregation pipeline)
+Running Code Demo: User can view their exploration heatmap, search their photos by tags/date, and understand their movement patterns. Community heatmap UI rendered (with mock data if needed).
+Milestone 3: Community Discovery & Polish (End of Week 9)
+Goal: Full community features, photo sharing, and production-ready MVP.
+Deliverables:
+* Community heatmap visualization (real public photo data aggregated weekly)
+* Browse public photos from map (tap pins/zones to see shared photos)
+* Photo sharing toggle (users can opt-in to make photos public at upload)
+* Photo details & metadata display (caption, tags, date, user attribution)
+* UI polish, bug fixes, performance optimization
+Running Code Demo: User can explore community heatmap, discover trending neighborhoods, browse public photos, and understand the full personal-vault + discovery experience end-to-end.
+
+
+
+
+
+
+
+
+
+
+Checks
+Weekly checks
+Week 4
+* Anthony
+* Gokul
+* Ellen
+* Amy
+* Ho Lok
+Week 5
+* Anthony
+* Gokul
+* Ellen
+* Amy
+* Ho Lok
+Week 6
+* Anthony
+* Gokul
+* Ellen
+* Amy
+* Ho Lok
+Week 7
+* Anthony
+* Gokul
+* Ellen
+* Amy
+* Ho Lok
+Week 8
+* Anthony
+* Gokul
+* Ellen
+* Amy
+* Ho Lok
+Week 9
+* Anthony
+* Gokul
+* Ellen
+* Amy
+* Ho Lok
+
+
+Specs
+The minimum requirements for the project system are:
+* You app can display dynamic data to the user.
+* Your app can upload data from the client to the back-end
+* Address security issues. For example, at least part of your application should require the user to authenticate
+* User can meaningfully search through server data.
+* Three more distinct features. Some points will be given according to how creative and useful the features are.
+* Meaningful understanding of Git is exemplified through version control.
+* A detailed README file that accurately and completely describes how to run the app locally.
+* The Project is generally visually pleasing and easy to navigate.
+* The code of your system is written with readability in mind (e.g., identifier have meaningful names, the code is well-structured and follows best practices, ...)
+* Execute a significant amount of code, written by your team, on both client and server.
+* You rationally consider alternative choices for your design decisions and you justify why the choices are made accordingly.
+
+
+Sprints
+Section 1
+Sprints 1, 3, and 5 can all be done in parallel
+* sprint 2 depends on sprint 1 being complete
+* sprint 4 depends on 1 and 2 being complete
+
+
+Sprint 1 Backend Setup: Amy
+Sprint 2 User Auth: 
+Sprint 3 Map Integration: Ellen
+Sprint 4 Photo Upload API: Gokul
+Sprint 5 Frontend Layout: anthony
+
+
+Sprint 1
+Sprint 1: Backend Server & Database Setup
+Assignee: TBD Goal: Stand up the Express.js backend server and connect it to MongoDB so the rest of the team has an API foundation to build on. Dependencies: None — can start immediately
+
+
+________________
+
+
+Background (read this first)
+The backend is the part of the app that runs on a server (not in the browser). It handles things like saving data to a database, processing requests, and sending responses back to the frontend. We're using:
+
+
+* Express.js — a lightweight framework for building web servers in Node.js. Think of it as the thing that listens for HTTP requests (like GET /api/health) and sends back responses.
+* MongoDB — a database that stores data as JSON-like documents (instead of tables/rows like SQL). We use it through Mongoose, a library that gives us a nice way to define data shapes ("schemas") and interact with MongoDB.
+* dotenv — lets us store secrets (like database passwords) in a .env file that doesn't get committed to git.
+
+
+Useful resources:
+
+
+* Express "Hello World" guide
+* Mongoose getting started
+* MongoDB Atlas setup guide
+
+
+________________
+
+
+Tasks
+1. Initialize the backend project
+* Create a server/ directory at the project root
+* Initialize a new Node.js project inside it using npm init
+* Install these runtime dependencies: express, mongoose, dotenv, cors
+* Install nodemon as a dev dependency (it auto-restarts the server when you change files)
+2. Create the folder structure
+* Inside server/, create these empty folders that the other sprints will use:
+   * config/ — database connection setup
+   * models/ — Mongoose schemas (data shapes)
+   * routes/ — URL endpoint definitions
+   * controllers/ — request handler logic
+   * middleware/ — functions that run before route handlers
+3. Create the Express server entry point
+* Create server/index.js
+* Set up a basic Express app that does the following:
+   * Loads environment variables from .env using dotenv
+   * Enables CORS middleware (so the frontend can talk to this server)
+   * Parses incoming JSON request bodies
+   * Listens on a port from the environment variable PORT, defaulting to 5001
+* Add a health-check route: GET /api/health that returns { status: "ok" }
+
+
+This is a simple route that lets us verify the server is running. Look up the Express docs on app.get() and res.json().
+
+
+* Test it by running the server and visiting http://localhost:5001/api/health in your browser
+4. Connect to MongoDB
+* Go to MongoDB Atlas and create a free account and cluster
+* In the Atlas dashboard, get your connection string (click "Connect" → "Connect your application")
+* Create a .env file in the server/ directory with two variables: PORT and MONGO_URI
+* Create server/config/db.js — this file should export a function that uses Mongoose to connect to the URI from the environment variable
+
+
+Look up mongoose.connect() in the Mongoose docs. Wrap it in a try/catch and log whether the connection succeeded or failed.
+
+
+* Call your connection function in index.js when the server starts up
+* Verify you see a success message when the server starts
+5. Set up environment variable safety
+* Add .env to server/.gitignore so secrets don't get pushed to GitHub
+* Create a .env.example file that lists the variable names with placeholder values (this IS safe to commit — it tells teammates what variables they need to set up)
+6. Add npm scripts
+* In server/package.json, add two scripts:
+   * A dev script that runs the server with nodemon (for development — auto-restarts on changes)
+   * A start script that runs the server with plain node (for production)
+7. Verify everything works
+* Run the dev script and confirm you see the MongoDB success message in the terminal
+* Open http://localhost:5001/api/health and confirm you see {"status":"ok"}
+* Run git status and confirm .env is NOT listed (it should be gitignored)
+
+
+________________
+
+
+Deliverables Checklist
+* Express server runs on localhost:5001
+* MongoDB connects successfully on startup
+* GET /api/health returns { status: "ok" }
+* .env is git-ignored; .env.example exists for teammates
+* Folder structure is clean and ready for other sprints
+
+
+Sprint 2
+Sprint 2: User Authentication (Signup & Login API)
+Assignee: TBD Goal: Build the backend authentication system so users can register, log in, and have their identity verified on protected routes. Dependencies: Sprint 1 must be complete (backend server & MongoDB must be running)
+
+
+________________
+
+
+Background (read this first)
+Authentication is how we verify "who is this user?" Here's how it works at a high level:
+
+
+1. User signs up → we store their info in the database with a hashed password (we never store plain text passwords)
+2. User logs in → we check their password against the hash. If it matches, we give them a JWT token
+3. On future requests, the user sends that token in the header → we verify it and know who they are
+
+
+Key concepts:
+
+
+* Hashing — a one-way transformation. We hash the password before storing it. When the user logs in, we hash what they typed and compare. Even if someone steals the database, they can't reverse the hash to get passwords.
+* JWT (JSON Web Token) — a signed string that contains the user's ID. It's like a temporary ID card the server issues. The server can verify it's real without checking the database every time.
+* Middleware — a function that runs before your route handler. Our auth middleware will check the JWT and block unauthorized requests.
+
+
+Useful resources:
+
+
+* bcryptjs npm page — look at the usage examples
+* jsonwebtoken npm page — look at jwt.sign() and jwt.verify()
+* Mongoose model docs
+* Search for "Express JWT authentication tutorial" for full walkthroughs
+
+
+________________
+
+
+Tasks
+1. Install auth dependencies
+* In the server/ directory, install bcryptjs (for password hashing) and jsonwebtoken (for creating/verifying tokens)
+2. Add JWT_SECRET to environment variables
+* Add a JWT_SECRET variable to your .env file — this can be any long random string. It's the key used to sign tokens.
+* Update .env.example with a placeholder so teammates know they need this
+3. Create the User model
+* Create server/models/User.js
+* Define a Mongoose schema with these fields:
+   * username — String, required, must be unique, trimmed of whitespace
+   * email — String, required, must be unique, stored as lowercase
+   * password — String, required (this will store the hashed version, not the plain text)
+   * createdAt — Date, defaults to the current time
+* Export the model
+
+
+Look up "mongoose schema" in the docs. The unique: true and lowercase: true options are built into Mongoose schema types.
+4. Create the auth controller
+* Create server/controllers/authController.js
+* Build a register function:
+   * Accept username, email, and password from the request body
+   * Check if a user with that email or username already exists — if so, return a 400 error
+   * Hash the password using bcryptjs (use 10 salt rounds — look up bcrypt.genSalt() and bcrypt.hash())
+   * Save the new user to MongoDB
+   * Generate a JWT token containing the user's ID (look up jwt.sign() — use your JWT_SECRET from the env, and set an expiration like '7d')
+   * Return the token and user info (but do NOT include the password in the response)
+* Build a login function:
+   * Find the user by email
+   * If no user found, return 401 with "Invalid credentials"
+   * Compare the submitted password against the stored hash (look up bcrypt.compare())
+   * If it matches → generate and return a JWT + user info
+   * If it doesn't match → return 401 with "Invalid credentials"
+
+
+Why the same error for wrong email and wrong password? Security best practice — we don't reveal whether an email exists in our system.
+5. Create auth routes
+* Create server/routes/authRoutes.js
+* Define two routes:
+   * POST /api/auth/register → calls the register function
+   * POST /api/auth/login → calls the login function
+* Mount these routes in server/index.js using app.use()
+
+
+Look up the Express Router docs — you create a router, define routes on it, and then mount it with a prefix like /api/auth.
+6. Create the auth middleware
+* Create server/middleware/auth.js
+* This should be a function that:
+   * Looks for a token in the request's Authorization header (the format is Bearer <token>)
+   * If no header/token exists → return 401 ("No token, authorization denied")
+   * Verifies the token using jwt.verify() with your JWT_SECRET
+   * If valid → attach the decoded user ID to the request object (e.g., req.user = { id: decoded.id }) and call next() to let the request continue
+   * If invalid → return 401 ("Token is not valid")
+* Export this middleware so other sprints can use it
+7. Create a protected test route
+* Add a GET /api/auth/me route in your auth routes file
+* Protect it with the auth middleware (pass the middleware function before the route handler)
+* The handler should look up the user in the database using req.user.id and return their info (excluding the password)
+
+
+In Mongoose, you can exclude fields from a query using .select('-password').
+8. Test everything manually
+Use Postman, Thunder Client (VS Code extension), or curl to test each scenario:
+
+
+* Register a new user → expect 201 status + token + user info
+* Register with the same email again → expect 400 error
+* Login with correct credentials → expect 200 + token
+* Login with wrong password → expect 401 + "Invalid credentials"
+* Call GET /api/auth/me with a valid token in the Authorization header → expect user info
+* Call GET /api/auth/me without a token → expect 401
+
+
+________________
+
+
+Deliverables Checklist
+* POST /api/auth/register — creates a user and returns a JWT
+* POST /api/auth/login — validates credentials and returns a JWT
+* GET /api/auth/me — returns current user info when given a valid token
+* Auth middleware exported and reusable for other routes
+* Passwords are hashed (never stored as plain text)
+* All 6 manual test cases pass
+
+
+Sprint 3
+Sprint 3: Frontend Map Integration
+Assignee: TBD Goal: Set up the interactive map on the frontend using React Leaflet so users can view, pan, and zoom around Los Angeles. Dependencies: None — this is pure frontend work, can start immediately
+
+
+________________
+
+
+Background (read this first)
+We're using Leaflet to display an interactive map. Leaflet is a free, open-source JavaScript library for maps (like a lightweight alternative to Google Maps). React Leaflet gives us React components that wrap Leaflet, so we can use JSX like <MapContainer> and <Marker> instead of writing raw JavaScript DOM code.
+
+
+Key concepts:
+
+
+* Tiles — maps are made up of small square images ("tiles") loaded from a tile server. We use OpenStreetMap tiles, which are free and don't need an API key.
+* Lat/Lng — latitude and longitude coordinates. Los Angeles is roughly [34.0522, -118.2437].
+* Markers — pins on the map that indicate a location and can be clicked.
+* Popups — small info boxes that appear when you click a marker.
+
+
+Useful resources:
+
+
+* React Leaflet getting started
+* React Leaflet MapContainer API
+* Leaflet quick start guide
+* Search for "react leaflet vite setup" for Vite-specific guidance
+
+
+________________
+
+
+Tasks
+1. Install map dependencies
+* In the momento/ directory (frontend root), install react-leaflet and leaflet
+2. Import Leaflet's CSS
+* In src/main.jsx, import Leaflet's stylesheet (leaflet/dist/leaflet.css)
+
+
+If you skip this, the map will look broken — tiles will be misaligned and markers won't show up correctly. This is the #1 most common Leaflet setup mistake.
+3. Fix Leaflet's marker icon issue
+Leaflet's default marker icons don't work with bundlers like Vite out of the box. The images can't be found at runtime.
+
+
+* Research "leaflet marker icon fix vite" or "leaflet default icon webpack" — this is a well-documented issue
+* The fix involves importing the marker icon images from the leaflet package and manually setting them on L.Icon.Default
+
+
+You'll need to import L from leaflet, import the marker icon and shadow images from leaflet/dist/images/, and call L.Icon.Default.mergeOptions() with the correct paths.
+4. Build the Map component
+* Create src/components/Map/Map.jsx
+* Use MapContainer from react-leaflet to render a map
+* Center it on Los Angeles (lat: 34.0522, lng: -118.2437)
+* Set a default zoom level of around 12 (shows a good chunk of the city)
+* Add a TileLayer using OpenStreetMap's free tile URL: https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+
+
+Look at the React Leaflet docs for MapContainer and TileLayer. The {s}, {z}, {x}, {y} placeholders are handled automatically by Leaflet.
+
+
+* Verify the map renders by importing and using it in App.jsx temporarily
+5. Add click-to-log-coordinates
+When a user clicks the map, we want to capture those coordinates (this will be used later for pinning photos to locations).
+
+
+* Create a small helper component that uses React Leaflet's useMapEvents hook
+* Listen for the click event and log the latitude and longitude to the browser console
+* Place this component inside your MapContainer
+
+
+This component won't render anything visible — it just hooks into map events. Look up useMapEvents in the React Leaflet docs.
+
+
+* Test: click anywhere on the map and check the browser console for coordinates
+6. Create a reusable MapPin component
+* Create src/components/Map/MapPin.jsx
+* It should accept a position prop (an array like [lat, lng]) and optional children
+* Render a Leaflet Marker at the given position
+* Inside the marker, render a Popup that displays the children (or placeholder text if no children provided)
+
+
+Look up Marker and Popup in the React Leaflet docs.
+7. Demo with hardcoded pins
+* In your Map component, add 3–5 test pins at known LA locations using your MapPin component:
+   * Santa Monica Pier: [34.0094, -118.4973]
+   * Griffith Observatory: [34.1184, -118.3004]
+   * UCLA: [34.0689, -118.4452]
+   * Grand Central Market: [34.0508, -118.2494]
+* Verify each pin appears at the right spot on the map
+* Click each pin and confirm the popup opens with the correct label
+8. Style the map container
+* Create src/components/Map/Map.css
+* Make the map fill the full viewport (100% width, 100vh height)
+* Make sure there are no scrollbar or overflow issues
+* Import the CSS file in your Map component
+
+
+________________
+
+
+Deliverables Checklist
+* Map renders full-screen, centered on Los Angeles
+* Pan (drag) and zoom (scroll wheel / buttons) work correctly
+* Clicking the map logs lat/lng coordinates to the browser console
+* Reusable MapPin component renders markers with clickable popups
+* 4 demo pins visible at known LA locations
+* No visual glitches (broken icons, scroll overflow, misaligned tiles)
+File Structure
+src/
+
+
+└── components/
+
+
+    └── Map/
+
+
+        ├── Map.jsx
+
+
+        ├── Map.css
+
+
+        └── MapPin.jsx
+
+
+Sprint 4
+Sprint 4: Photo Upload API & Storage
+Assignee: TBD Goal: Build the backend API for uploading, storing, and retrieving photos with location data. Dependencies: Sprint 1 (server & DB) and Sprint 2 (auth middleware) must be complete
+
+
+________________
+
+
+Background (read this first)
+This sprint adds the core photo functionality to the backend. Users will send photos from the frontend, and we need to:
+
+
+1. Receive the file — regular JSON requests can't carry files. File uploads use a format called multipart/form-data, which is what <input type="file"> sends. The library multer handles parsing these requests for Express.
+2. Store the file — we'll save files to a local uploads/ folder on the server. (In production you'd use a cloud service like Cloudinary or AWS S3, but local storage is fine for development.)
+3. Save metadata to MongoDB — we store the file path, who uploaded it, the lat/lng coordinates, and optional fields like captions and tags.
+
+
+Key concepts:
+
+
+* Multer — Express middleware that handles file uploads. After multer processes a request, the uploaded file is available on req.file (with info like filename, mimetype, size, and path).
+* Static files — Express can serve files from a folder using express.static(). This lets the frontend load uploaded images via a URL.
+* ObjectId references — In MongoDB/Mongoose, you can link documents together using IDs. Each photo stores the user ID of who uploaded it, referencing the User model.
+
+
+Useful resources:
+
+
+* Multer npm docs — read the "Usage", "DiskStorage", and "File filter" sections
+* Express static files guide
+* Mongoose populate docs — for understanding ObjectId refs
+* Search for "multer file upload express tutorial" for walkthroughs
+
+
+________________
+
+
+Tasks
+1. Install file upload dependencies
+* In the server/ directory, install multer
+2. Create the Photo model
+* Create server/models/Photo.js
+* Define a Mongoose schema with these fields:
+   * user — an ObjectId that references the User model (required). This links each photo to the user who uploaded it.
+   * imageUrl — String, required. The path or URL to the stored image file.
+   * location — an object containing lat (Number, required) and lng (Number, required)
+   * caption — String, optional, defaults to empty string
+   * tags — array of Strings, defaults to empty array
+   * isPublic — Boolean, defaults to false
+   * createdAt — Date, defaults to current time
+
+
+Look up "mongoose ObjectId ref" to see how to set up the user reference. The tags and isPublic fields won't be actively used yet, but including them now avoids schema changes later.
+3. Configure multer for local file storage
+* Create an uploads/ directory inside server/
+* Add uploads/ to server/.gitignore
+* Create a multer configuration file (e.g., server/config/upload.js) that sets up:
+   * Disk storage — save files to the uploads/ folder with unique filenames (e.g., prepend a timestamp to avoid name collisions)
+   * File filter — only accept JPEG, PNG, and HEIC files (check the mimetype property). Reject anything else with an error.
+   * Size limit — reject files larger than 10MB
+
+
+Read the multer docs on diskStorage, fileFilter, and the limits option. Export the configured multer instance.
+4. Serve the uploads folder as static files
+* In server/index.js, use express.static() to serve the uploads/ directory
+* This means a file saved at server/uploads/photo123.jpg should be accessible via http://localhost:5001/uploads/photo123.jpg
+
+
+Look up the Express static files guide. You'll need the path module to construct the correct directory path.
+5. Create the photo controller
+* Create server/controllers/photoController.js
+* Build these four functions:
+
+
+uploadPhoto:
+
+
+* Get lat, lng, caption, and tags from the request body
+* Get the uploaded file info from req.file (multer puts it there)
+* Validate that a file was actually uploaded and that lat/lng are provided — return 400 if not
+* Create a new Photo document in MongoDB with the file path as imageUrl and the logged-in user's ID
+* Return the created photo with status 201
+
+
+getUserPhotos:
+
+
+* Find all photos where the user field matches the logged-in user's ID (req.user.id)
+* Sort by createdAt descending (newest first)
+* Return the array
+
+
+getPhotoById:
+
+
+* Find a photo by its _id (from the URL parameter)
+* If not found → return 404
+* If the photo is private and the logged-in user doesn't own it → return 403
+* Otherwise return the photo
+
+
+deletePhoto:
+
+
+* Find the photo by _id
+* If not found → return 404
+* If the logged-in user doesn't own it → return 403
+* Delete the actual file from the uploads/ folder (look up Node's fs.unlink)
+* Delete the document from MongoDB
+* Return a success message
+6. Create photo routes
+* Create server/routes/photoRoutes.js
+* All routes must be protected by the auth middleware from Sprint 2
+* Define these routes:
+   * POST /api/photos — uses multer middleware (for a single file upload) + the uploadPhoto controller
+   * GET /api/photos — calls getUserPhotos
+   * GET /api/photos/:id — calls getPhotoById
+   * DELETE /api/photos/:id — calls deletePhoto
+* Mount the routes in server/index.js
+
+
+For the POST route, you'll chain two middleware functions: multer's .single('photo') (which tells multer to expect one file in a form field called "photo") and then your controller function.
+7. Test everything manually
+Use Postman, Thunder Client, or curl. You'll need a valid JWT token from Sprint 2.
+
+
+* Upload a JPEG with lat/lng values → expect 201 + photo object with an imageUrl
+
+
+Note: when testing file uploads, you need to send as form-data, not JSON. In Postman, select "Body" → "form-data" and set the file field type to "File". In curl, use the -F flag instead of -d.
+
+
+* Upload without a file → expect 400
+* Upload a .txt file → expect 400 (invalid file type)
+* Get all your photos → expect an array of your uploads
+* Get a single photo by ID → expect the photo object
+* Delete a photo → expect success, and confirm the file is removed from the uploads/ folder
+* Try to access another user's private photo → expect 403
+* Open the image URL directly in a browser → confirm the image loads
+
+
+________________
+
+
+Deliverables Checklist
+* POST /api/photos — upload an image with lat/lng, returns photo object
+* GET /api/photos — list all of the current user's photos
+* GET /api/photos/:id — get a single photo's details
+* DELETE /api/photos/:id — delete a photo (removes both file and DB record)
+* File type validation works (rejects non-images)
+* File size validation works (rejects files over 10MB)
+* Uploaded images are accessible via their URL
+* Only the photo owner can delete their photos
+
+
+Sprint 5 - Anthony
+Sprint 5: Frontend Layout, Routing & Auth Pages
+Assignee: Anthony Goal: Set up React Router, create the app's page structure, and build the login/signup UI that connects to the auth API. Dependencies: Sprint 2 (auth API) must be complete to test the forms end-to-end. You can build the UI first and test against the API once it's ready.
+
+
+________________
+
+
+Background (read this first)
+Right now the frontend is a single page (App.jsx). We need to add routing so different URLs show different pages (like /login, /signup, /map). We also need a way to manage the logged-in user's state across the whole app.
+
+
+Key concepts:
+
+
+* React Router — a library that lets you map URLs to components. When the user visits /login, it renders LoginPage. When they visit /map, it renders MapPage. No full page reload — it swaps components in and out.
+* Context API — React's built-in way to share state across many components without passing props down through every level. We'll use it to share the current user's info and login/logout functions app-wide.
+* localStorage — browser storage that persists across page refreshes and tab closes. We store the JWT token here so the user stays logged in.
+* Axios — an HTTP client library (alternative to fetch). Its main advantage for us is interceptors — functions that run before every request, so we can automatically attach the JWT token.
+* Protected routes — some pages (like the map) should only be accessible to logged-in users. If someone tries to visit /map without being logged in, we redirect them to /login.
+
+
+Useful resources:
+
+
+* React Router tutorial
+* React Context docs
+* Axios docs — look at "Creating an Instance" and "Interceptors"
+* Search for "react protected routes tutorial" for pattern examples
+
+
+________________
+
+
+Tasks
+1. Install frontend dependencies
+* In the momento/ directory, install react-router-dom and axios
+2. Set up the Axios instance
+* Create src/api/axios.js
+* Create a reusable axios instance with the baseURL pointing to your backend (http://localhost:5001/api)
+* Add a request interceptor that checks localStorage for a token and, if found, attaches it to the request's Authorization header in the format Bearer <token>
+
+
+Look up "axios create instance" and "axios interceptors" in the docs. The interceptor runs automatically before every request, so you don't have to manually add the token each time.
+3. (Optional but recommended) Set up Vite proxy
+* In vite.config.js, add a dev server proxy so that requests to /api get forwarded to http://localhost:5001
+* If you set this up, update your axios baseURL to just '/api' instead of the full localhost URL
+
+
+This avoids CORS issues during development. Look up "vite server proxy" in the Vite docs.
+4. Create the Auth Context
+* Create src/context/AuthContext.jsx
+* Use React's createContext and a provider component to share auth state
+* The context should provide:
+   * user — the current user object, or null if logged out
+   * token — the JWT string, or null
+   * login(token, userData) — a function that stores the token in localStorage and updates state
+   * logout() — a function that clears the token from localStorage and resets state to null
+   * loading — a boolean that's true while we're checking if a stored token is still valid
+* On app load (use useEffect), check if there's a token in localStorage. If so, call GET /api/auth/me to verify it's still valid and load the user data. If the request fails, clear the token.
+* Create and export a custom hook (e.g., useAuth()) that wraps useContext so other components can easily access auth state
+
+
+The loading state is important — without it, the app would briefly redirect to the login page on every refresh before the token verification completes.
+5. Create the page components
+LoginPage (src/pages/LoginPage.jsx):
+
+
+* Build a form with email and password fields
+* Use useState to track the form input values
+* On submit, send a POST request to /auth/login using your axios instance
+* If successful, call the login() function from your auth context and redirect to /map
+* If error, display the error message below the form (e.g., "Invalid credentials")
+* Add a link at the bottom: "Don't have an account? Sign up" that navigates to /signup
+
+
+Look up useNavigate from React Router for programmatic navigation after login.
+
+
+SignupPage (src/pages/SignupPage.jsx):
+
+
+* Build a form with username, email, and password fields
+* On submit, POST to /auth/register
+* If successful, call login() from context and redirect to /map
+* If error (e.g., email already taken), display the error message
+* Add a link: "Already have an account? Log in" navigating to /login
+
+
+MapPage (src/pages/MapPage.jsx):
+
+
+* For now, just render a simple placeholder like "Welcome to the map!"
+* This page will eventually import the Map component from Sprint 3
+6. Create the ProtectedRoute component
+* Create src/components/ProtectedRoute.jsx
+* This component should check the auth context:
+   * If loading is true → show a simple loading indicator
+   * If no user is logged in → redirect to /login (look up the Navigate component from React Router)
+   * If user is logged in → render the child content
+* This will be used to wrap routes that require authentication
+7. Build the Navbar
+* Create src/components/Navbar.jsx
+* Use the auth context to check if a user is logged in
+* When logged out → show the app name ("Momento") and links to Login and Signup
+* When logged in → show the app name, the username, and a Logout button
+* The Logout button should call logout() from context and navigate to /login
+
+
+Use <Link> from React Router for navigation links (not plain <a> tags — those cause full page reloads).
+8. Wire up the routes in App.jsx
+* Rewrite App.jsx to set up routing
+* Wrap everything in BrowserRouter and your AuthProvider
+* Add the Navbar (visible on all pages)
+* Define these routes:
+   * / → redirects to /map
+   * /login → renders LoginPage
+   * /signup → renders SignupPage
+   * /map → renders MapPage, wrapped in ProtectedRoute
+
+
+Look up Routes, Route, and Navigate in the React Router docs.
+9. Test the full flow
+* Start both the backend and frontend dev servers
+* Go to /signup → create a new account → confirm you're redirected to /map
+* Refresh the page → confirm you're still logged in (token persists in localStorage)
+* Click Logout → confirm you're redirected to /login
+* Try visiting /map while logged out → confirm you're redirected to /login
+* Go to /login → log in with your credentials → confirm you reach the map page
+* Check the Navbar updates correctly (shows Login/Signup when logged out, username/Logout when logged in)
+
+
+________________
+
+
+Deliverables Checklist
+* Signup form creates an account and logs in automatically
+* Login form authenticates and redirects to the map
+* JWT token is stored in localStorage and attached to all API requests
+* Protected route redirects unauthenticated users to /login
+* Navbar shows Login/Signup when logged out, username/Logout when logged in
+* Page refresh doesn't lose the login state
+* Auth context is accessible from any component via the custom hook
+File Structure
+src/
+
+
+├── api/
+
+
+│   └── axios.js
+
+
+├── components/
+
+
+│   ├── Navbar.jsx
+
+
+│   └── ProtectedRoute.jsx
+
+
+├── context/
+
+
+│   └── AuthContext.jsx
+
+
+├── pages/
+
+
+│   ├── LoginPage.jsx
+
+
+│   ├── SignupPage.jsx
+
+
+│   └── MapPage.jsx
+
+
+└── App.jsx
