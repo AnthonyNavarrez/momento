@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet'
 import { useEffect, useState } from 'react'
 import api from '../../api/axios'
 import MapPin from './MapPin.jsx'
@@ -56,6 +56,20 @@ function Map() {
     }
   }
 
+  const handleDelete = async (photoId) => {
+    if (!photoId) return
+    const ok = window.confirm('Delete this photo?')
+    if (!ok) return
+
+    try {
+      await api.delete(`/photos/${photoId}`)
+      setPhotos((prev) => prev.filter((p) => p._id !== photoId))
+    } catch (err) {
+      console.error('Failed to delete photo', err)
+      alert(err?.response?.data?.message || err.message || 'Delete failed')
+    }
+  }
+
   return (
     <MapContainer
       className='map-container'
@@ -100,10 +114,16 @@ function Map() {
               )}
               <div className="popup-caption">{photo.caption || 'No caption'}</div>
               <div className="popup-date">Uploaded {formattedDate}</div>
+              <div className="popup-actions">
+                <button className="popup-delete" onClick={() => handleDelete(photo._id)}>Delete</button>
+              </div>
             </div>
           </MapPin>
         )
       })}
+      {isUploadOpen && selectedLocation && (
+        <Marker position={[selectedLocation.lat, selectedLocation.lng]} />
+      )}
       <MapClickLogger onMapClick={handleMapClick} />
       <PhotoUpload
         lat={selectedLocation?.lat}

@@ -48,8 +48,10 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 	}
 
 	return (
-		<div className="photo-upload-overlay">
-			<div className="photo-upload-modal" role="dialog" aria-modal="true" aria-label="Upload photo">
+		<div className="photo-upload-overlay" onClick={(e) => {
+			if (e.target === e.currentTarget && onClose) onClose()
+		}}>
+			<div className="photo-upload-modal" role="dialog" aria-modal="true" aria-label="Upload photo" onClick={(e) => e.stopPropagation()}>
 				<form className="photo-upload-form" onSubmit={handleSubmit}>
 					<h2>Add Photo</h2>
 

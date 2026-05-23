@@ -18,23 +18,51 @@ body {
 .map-pin-popup {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-width: 220px;
+  gap: 10px;
+  max-width: 200px;
 }
 
 .map-pin-thumbnail {
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
   object-fit: cover;
 }
 
 .popup-caption,
 .popup-date {
   font-size: 14px;
-  line-height: 1.3;
+  line-height: 1.4;
+}
+
+.popup-caption {
+  font-weight: 500;
+  color: #222;
 }
 
 .popup-date {
-  color: #555;
+  color: #666;
+  font-size: 13px;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.popup-delete {
+  background: #d32f2f;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.popup-delete:hover {
+  background: #b71c1c;
 }
