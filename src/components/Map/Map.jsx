@@ -2,6 +2,8 @@ import { MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet'
 import { useEffect, useState } from 'react'
 import api from '../../api/axios'
 import MapPin from './MapPin.jsx'
+import HeatmapLayer from './HeatmapLayer.jsx'
+import MapViewToggle from './MapViewToggle.jsx'
 import PhotoUpload from '../PhotoUpload.jsx'
 import './Map.css'
 
@@ -29,6 +31,11 @@ function Map() {
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [isUploadOpen, setIsUploadOpen] = useState(false)
 
+  const [mapView, setMapView] = useState('my-photos')
+  const [heatmapPeriod, setHeatmapPeriod] = useState('all')
+  const [heatmapPoints, setHeatmapPoints] = useState([])
+  const [heatmapCount, setHeatmapCount] = useState(null)
+
   useEffect(() => {
     const fetchPhotos = async () => {
       setIsLoading(true)
@@ -47,6 +54,33 @@ function Map() {
 
     fetchPhotos()
   }, [])
+
+  useEffect(() => {
+    if (mapView !== 'heatmap') return
+
+    const fetchHeatmap = async () => {
+      try {
+        const response = await api.get(`/photos/heatmap?period=${heatmapPeriod}`)
+        const points = response.data.points.map(([lat, lng]) => [lat, lng, 1])
+        setHeatmapPoints(points)
+        setHeatmapCount(response.data.count)
+      } catch (err) {
+        console.error('Failed to load heatmap data', err)
+        setHeatmapPoints([])
+        setHeatmapCount(null)
+      }
+    }
+
+    fetchHeatmap()
+  }, [mapView, heatmapPeriod])
+
+  const handleViewChange = (view) => {
+    setMapView(view)
+    if (view === 'heatmap') {
+      setIsUploadOpen(false)
+      setSelectedLocation(null)
+    }
+  }
 
   const handleMapClick = ({ lat, lng }) => {
     setSelectedLocation({ lat, lng })
@@ -82,6 +116,8 @@ function Map() {
     }
   }
 
+  const isMyPhotos = mapView === 'my-photos'
+
   return (
     <MapContainer
       className='map-container'
@@ -95,7 +131,14 @@ function Map() {
         attribution='&copy; OpenStreetMap contributors'
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
-      {photos.map((photo) => {
+      <MapViewToggle
+        view={mapView}
+        period={heatmapPeriod}
+        photoCount={heatmapCount}
+        onViewChange={handleViewChange}
+        onPeriodChange={setHeatmapPeriod}
+      />
+      {isMyPhotos && photos.map((photo) => {
         const lat = photo?.location?.lat
         const lng = photo?.location?.lng
         if (lat == null || lng == null) return null
@@ -133,23 +176,26 @@ function Map() {
           </MapPin>
         )
       })}
-      {fetchError && (
+      {isMyPhotos && fetchError && (
         <div className="map-no-photos" role="alert">Error loading photos: {fetchError}</div>
       )}
-      {!isLoading && photos.length === 0 && (
+      {isMyPhotos && !isLoading && photos.length === 0 && (
         <div className="map-no-photos">No photos yet — click the map to add one</div>
       )}
-      {isUploadOpen && selectedLocation && (
+      {isMyPhotos && isUploadOpen && selectedLocation && (
         <Marker position={[selectedLocation.lat, selectedLocation.lng]} />
       )}
-      {!isUploadOpen && <MapClickLogger onMapClick={handleMapClick} />}
-      <PhotoUpload
-        lat={selectedLocation?.lat}
-        lng={selectedLocation?.lng}
-        open={isUploadOpen}
-        onClose={handleCloseUpload}
-        onUploadSuccess={handleUploadSuccess}
-      />
+      {!isMyPhotos && <HeatmapLayer points={heatmapPoints} />}
+      {isMyPhotos && !isUploadOpen && <MapClickLogger onMapClick={handleMapClick} />}
+      {isMyPhotos && (
+        <PhotoUpload
+          lat={selectedLocation?.lat}
+          lng={selectedLocation?.lng}
+          open={isUploadOpen}
+          onClose={handleCloseUpload}
+          onUploadSuccess={handleUploadSuccess}
+        />
+      )}
     </MapContainer>
   )
 }

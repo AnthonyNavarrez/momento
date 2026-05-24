@@ -1,0 +1,83 @@
+.map-toggle-container {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.map-toggle-controls {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.map-toggle-segmented {
+  display: flex;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.map-toggle-btn {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.map-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.map-toggle-btn.active {
+  background: #1976d2;
+  color: #fff;
+}
+
+.map-toggle-periods {
+  display: flex;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.map-period-btn {
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.map-period-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.map-period-btn.active {
+  background: #1976d2;
+  color: #fff;
+}
+
+.map-toggle-count {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+}

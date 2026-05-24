@@ -8,7 +8,7 @@ const uploadPhoto = async (req, res) => {
             return res.status(400).json({ message: 'No file uploaded' });
         }
 
-        const { lat, lng, caption, tags } = req.body;
+        const { lat, lng, caption, tags, isPublic } = req.body;
 
         if (lat == null || lng == null) {
             return res.status(400).json({ message: 'Latitude and longitude are required' });
@@ -20,6 +20,7 @@ const uploadPhoto = async (req, res) => {
             location: { lat: Number(lat), lng: Number(lng) },
             caption: caption || '',
             tags: tags ? JSON.parse(tags) : [],
+            isPublic: isPublic === 'true' || isPublic === true,
         });
 
         res.status(201).json(photo);
@@ -80,4 +81,36 @@ const deletePhoto = async (req, res) => {
     }
 };
 
-module.exports = { uploadPhoto, getUserPhotos, getPhotoById, deletePhoto };
+const getHeatmapData = async (req, res) => {
+    try {
+        const { period } = req.query;
+        const query = { isPublic: true };
+
+        if (period && period !== 'all') {
+            const now = new Date();
+            let startDate;
+            if (period === 'week') {
+                startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            } else if (period === 'month') {
+                startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            } else if (period === 'year') {
+                startDate = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+            }
+            if (startDate) {
+                query.createdAt = { $gte: startDate };
+            }
+        }
+
+        const photos = await Photo.find(query).select('location createdAt');
+
+        const points = photos
+            .filter(p => p.location && p.location.lat != null && p.location.lng != null)
+            .map(p => [p.location.lat, p.location.lng]);
+
+        res.json({ points, count: points.length });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+module.exports = { uploadPhoto, getUserPhotos, getPhotoById, deletePhoto, getHeatmapData };
