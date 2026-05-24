@@ -2,8 +2,17 @@ import { MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet'
 import { useEffect, useState } from 'react'
 import api from '../../api/axios'
 import MapPin from './MapPin.jsx'
+import HeatmapLayer from './HeatmapLayer.jsx'
 import PhotoUpload from '../PhotoUpload.jsx'
 import './Map.css'
+
+const TEST_HEATMAP_POINTS = [
+  [34.0522, -118.2437, 1],  // DTLA
+  [34.0094, -118.4973, 1],  // Santa Monica
+  [34.0094, -118.4973, 1],  // Santa Monica (duplicate = hotter)
+  [34.1184, -118.3004, 1],  // Griffith
+  [34.0689, -118.4452, 1],  // UCLA
+]
 
 const LOS_ANGELES_COORDS = [34.0522, -118.2437]
 const LA_BOUNDS = [
@@ -142,6 +151,7 @@ function Map() {
       {isUploadOpen && selectedLocation && (
         <Marker position={[selectedLocation.lat, selectedLocation.lng]} />
       )}
+      <HeatmapLayer points={TEST_HEATMAP_POINTS} />
       {!isUploadOpen && <MapClickLogger onMapClick={handleMapClick} />}
       <PhotoUpload
         lat={selectedLocation?.lat}
