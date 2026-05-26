@@ -68,11 +68,15 @@ const getPhotoById = async (req, res) => {
             return res.status(404).json({ message: 'Photo not found' });
         }
 
-        if (!photo.isPublic && photo.user.toString() !== req.user.id) {
-            return res.status(403).json({ message: 'Not authorized to view this photo' });
+        if (photo.isPublic) {
+            return res.json(photo);
         }
 
-        res.json(photo);
+        if (req.user && photo.user.toString() === req.user.id) {
+            return res.json(photo);
+        }
+
+        return res.status(403).json({ message: 'Not authorized to view this photo' });
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
