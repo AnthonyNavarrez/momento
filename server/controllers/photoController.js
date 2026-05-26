@@ -38,6 +38,28 @@ const getUserPhotos = async (req, res) => {
     }
 };
 
+const getPublicPhotos = async (req, res) => {
+    try {
+        const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+        const limit = Math.max(1, parseInt(req.query.limit, 10) || 20);
+        const skip = (page - 1) * limit;
+
+        const query = { isPublic: true };
+        const totalPhotos = await Photo.countDocuments(query);
+        const totalPages = Math.ceil(totalPhotos / limit) || 1;
+
+        const photos = await Photo.find(query)
+            .populate('user', 'username')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        res.json({ photos, page, totalPages, totalPhotos });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 const getPhotoById = async (req, res) => {
     try {
         const photo = await Photo.findById(req.params.id);
@@ -113,4 +135,4 @@ const getHeatmapData = async (req, res) => {
     }
 };
 
-module.exports = { uploadPhoto, getUserPhotos, getPhotoById, deletePhoto, getHeatmapData };
+module.exports = { uploadPhoto, getUserPhotos, getPublicPhotos, getPhotoById, deletePhoto, getHeatmapData };
