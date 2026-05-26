@@ -12,10 +12,12 @@ export function NavBar() {
                 <>
                     <Link to="/map">Map</Link>
                     <Link to="/gallery">Gallery</Link>
+                    <Link to="/explore">Explore</Link>
                     <span>{user.username}</span>
                     <button onClick={() => {logout(); navigate('/login')}}>Logout</button>
                 </> :
                 <>
+                    <Link to="/explore">Explore</Link>
                     <Link to="/login">Login</Link>
                     <Link to="/signup">Signup</Link>
                 </>}
