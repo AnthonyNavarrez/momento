@@ -76,13 +76,6 @@ export function GalleryPage() {
         setSelected(null);
     };
 
-    const clearTagFilter = () => {
-        setSearchParams({});
-        setPhotos(allPhotos);
-        setIsFiltering(false);
-        setTotalCount(allPhotos.length);
-    };
-
     const handleTagClick = (tag) => {
         setSearchParams({ tags: tag });
         handleSearch({ q: '', tags: [tag], startDate: '', endDate: '' });
@@ -95,6 +88,10 @@ export function GalleryPage() {
         setTotalCount(allPhotos.length);
     };
 
+    const handleTagClear = () => {
+        setSearchParams({});
+    };
+
     if (loading) return <p className="gallery-status">Loading your photos...</p>;
     if (error)   return <p className="gallery-status gallery-error">{error}</p>;
 
@@ -105,26 +102,11 @@ export function GalleryPage() {
                 key={activeTag || 'all'}
                 onSearch={handleSearch}
                 onClear={handleClearFilters}
+                onTagClear={handleTagClear}
                 resultCount={photos.length}
                 totalCount={isFiltering ? totalCount : photos.length}
                 initialTags={initialTags}
             />
-            {activeTag && (
-                <div className="gallery-active-filter">
-                    <span className="gallery-active-filter-label">
-                        Filtering by tag:
-                        <span className="gallery-active-filter-tag">{activeTag}</span>
-                    </span>
-                    <button
-                        type="button"
-                        className="gallery-active-filter-clear"
-                        onClick={clearTagFilter}
-                        aria-label={`Clear tag filter: ${activeTag}`}
-                    >
-                        ×
-                    </button>
-                </div>
-            )}
             {photos.length === 0 ? (
                 <p className="gallery-status">No photos yet. Upload some from the map!</p>
             ) : (
