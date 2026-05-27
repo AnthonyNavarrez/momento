@@ -8,10 +8,9 @@ router.post('/', protect, upload.single('photo'), uploadPhoto);
 router.get('/', protect, getUserPhotos);
 router.get('/heatmap', getHeatmapData);
 router.get('/public', getPublicPhotos);
+router.get('/search', protect, searchPhotos);
 router.get('/:id', optionalAuth, getPhotoById);
 router.put('/:id', protect, updatePhoto);
-router.get('/search', protect, searchPhotos);
-router.get('/:id', protect, getPhotoById);
 router.delete('/:id', protect, deletePhoto);
 
 
