@@ -3,6 +3,39 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import './ExplorePage.css';
 
+function ExploreCard({ photo, onClick }) {
+    const [imageError, setImageError] = useState(false);
+
+    return (
+        <div className="explore-card" onClick={onClick}>
+            {imageError ? (
+                <div className="explore-card-placeholder" aria-hidden="true">
+                    <span className="explore-card-placeholder-icon">📷</span>
+                    <span className="explore-card-placeholder-text">Image unavailable</span>
+                </div>
+            ) : (
+                <img
+                    src={photo.imageUrl}
+                    alt={photo.caption || 'Photo'}
+                    className="explore-card-img"
+                    onError={() => setImageError(true)}
+                />
+            )}
+            <div className="explore-card-info">
+                {photo.caption && (
+                    <p className="explore-card-caption">{photo.caption}</p>
+                )}
+                <p className="explore-card-username">
+                    {photo.user?.username || 'Unknown'}
+                </p>
+                <p className="explore-card-date">
+                    {new Date(photo.createdAt).toLocaleDateString()}
+                </p>
+            </div>
+        </div>
+    );
+}
+
 export function ExplorePage() {
     const [photos, setPhotos] = useState([]);
     const [page, setPage] = useState(1);
@@ -60,28 +93,11 @@ export function ExplorePage() {
                 <>
                     <div className="explore-grid">
                         {photos.map((photo) => (
-                            <div
+                            <ExploreCard
                                 key={photo._id}
-                                className="explore-card"
+                                photo={photo}
                                 onClick={() => navigate(`/photos/${photo._id}`)}
-                            >
-                                <img
-                                    src={photo.imageUrl}
-                                    alt={photo.caption || 'Photo'}
-                                    className="explore-card-img"
-                                />
-                                <div className="explore-card-info">
-                                    {photo.caption && (
-                                        <p className="explore-card-caption">{photo.caption}</p>
-                                    )}
-                                    <p className="explore-card-username">
-                                        {photo.user?.username || 'Unknown'}
-                                    </p>
-                                    <p className="explore-card-date">
-                                        {new Date(photo.createdAt).toLocaleDateString()}
-                                    </p>
-                                </div>
-                            </div>
+                            />
                         ))}
                     </div>
 

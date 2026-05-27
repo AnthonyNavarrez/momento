@@ -3,6 +3,21 @@ const path = require('path');
 const convert = require('heic-convert');
 
 const uploadsDir = path.join(__dirname, '..', 'uploads');
+const MIN_FILE_SIZE = 1024;
+
+function getImagePath(imageUrl) {
+    return path.join(uploadsDir, path.basename(imageUrl));
+}
+
+function isValidImageFile(imageUrl) {
+    try {
+        const filePath = getImagePath(imageUrl);
+        if (!fs.existsSync(filePath)) return false;
+        return fs.statSync(filePath).size >= MIN_FILE_SIZE;
+    } catch {
+        return false;
+    }
+}
 
 function isHeicFile(file) {
     const name = file.originalname?.toLowerCase() || '';
@@ -34,4 +49,4 @@ async function normalizeUploadedImage(file) {
     return jpegFilename;
 }
 
-module.exports = { normalizeUploadedImage, isHeicFile };
+module.exports = { normalizeUploadedImage, isHeicFile, isValidImageFile, getImagePath };
