@@ -166,4 +166,40 @@ const getHeatmapData = async (req, res) => {
     }
 };
 
-module.exports = { uploadPhoto, getUserPhotos, getPublicPhotos, getPhotoById, updatePhoto, deletePhoto, getHeatmapData };
+const searchPhotos = async (req, res) => {
+    try {
+        const { q, tags, startDate, endDate } = req.query;
+        const query = {user:req.user.id};
+
+        const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+        const limit = Math.max(1, parseInt(req.query.limit, 10) || 20);
+
+        if (q) {
+            query.$or = [{caption:{$regex:q,$options:'i'}},{tags:{$regex: q, $options:'i'}}];
+        }
+        if(tags)  {
+
+            const tagsArray = tags.split(",")
+            query.tags = {$in: tagsArray}
+        }
+        if(startDate || endDate) {
+            const sDate = new Date(startDate);
+            const eDate = new Date(endDate);
+            query.createdAt = {}
+            if (startDate) {
+                query.createdAt.$gte = sDate
+            }
+            if (endDate) {
+                query.createdAt.$lte = eDate
+            }
+        }
+        const photos = await Photo.find(query).sort({ createdAt: -1 }).skip((page-1)*limit).limit(limit);
+        const totalPhotos = await Photo.countDocuments(query);
+        const totalPages = Math.ceil(totalPhotos/limit)
+        res.json({photos, page, totalPages, totalPhotos});
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+module.exports = { uploadPhoto, getUserPhotos, getPublicPhotos, getPhotoById, updatePhoto, deletePhoto, searchPhotos, getHeatmapData };

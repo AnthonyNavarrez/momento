@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import PhotoDetailModal from '../components/PhotoDetailModal';
 import './GalleryPage.css';
+import { TagInput } from '../components/TagInput';
+import { SearchBar } from '../components/SearchBar';
 
 export function GalleryPage() {
     const [photos, setPhotos] = useState([]);
     const [selected, setSelected] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [testTags, setTestTags] = useState([]); {/*for test */}
 
     const fetchPhotos = async () => {
         try {
@@ -35,6 +38,12 @@ export function GalleryPage() {
     return (
         <div className="gallery-page">
             <h1 className="gallery-title">My Photos</h1>
+            <SearchBar                                                                 
+                onSearch={(filters) => console.log(filters)}                           
+                resultCount={photos.length}                                            
+                totalCount={photos.length}
+            /> 
+            <TagInput tags={testTags} onChange={setTestTags} />  {/*for test */}
 
             {photos.length === 0 ? (
                 <p className="gallery-status">No photos yet. Upload some from the map!</p>

@@ -14,7 +14,7 @@ export function NavBar() {
                     <Link to="/gallery">Gallery</Link>
                     <Link to="/explore">Explore</Link>
                     <span>{user.username}</span>
-                    <button onClick={() => {logout(); navigate('/login')}}>Logout</button>
+                    <button onClick={() => {logout(); navigate('/')}}>Logout</button>
                 </> :
                 <>
                     <Link to="/explore">Explore</Link>
