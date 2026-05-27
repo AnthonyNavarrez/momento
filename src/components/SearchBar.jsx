@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import './SearchBar.css';
 
-export function SearchBar({ onSearch, resultCount, totalCount, initialTags = [] }) {
+export function SearchBar({ onSearch, resultCount, totalCount, initialTags = [], onClear }) {
     const [query, setQuery] = useState('');
     const [tags, setTags] = useState(initialTags);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+
+    useEffect(() => {
+        setTags(initialTags);
+    }, [initialTags.join(',')]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -19,6 +23,7 @@ export function SearchBar({ onSearch, resultCount, totalCount, initialTags = [] 
         setTags([]);
         setStartDate('');
         setEndDate('');
+        if (onClear) onClear();
     };
 
     const isFiltering = query || tags.length > 0 || startDate || endDate;

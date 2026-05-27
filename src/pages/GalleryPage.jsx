@@ -17,6 +17,7 @@ export function GalleryPage() {
 
     const initialTag = searchParams.get('tags');
     const initialTags = initialTag ? [initialTag] : [];
+    const activeTag = searchParams.get('tags');
 
     const fetchPhotos = async () => {
         try {
@@ -75,6 +76,25 @@ export function GalleryPage() {
         setSelected(null);
     };
 
+    const clearTagFilter = () => {
+        setSearchParams({});
+        setPhotos(allPhotos);
+        setIsFiltering(false);
+        setTotalCount(allPhotos.length);
+    };
+
+    const handleTagClick = (tag) => {
+        setSearchParams({ tags: tag });
+        handleSearch({ q: '', tags: [tag], startDate: '', endDate: '' });
+    };
+
+    const handleClearFilters = () => {
+        setSearchParams({});
+        setPhotos(allPhotos);
+        setIsFiltering(false);
+        setTotalCount(allPhotos.length);
+    };
+
     if (loading) return <p className="gallery-status">Loading your photos...</p>;
     if (error)   return <p className="gallery-status gallery-error">{error}</p>;
 
@@ -82,11 +102,29 @@ export function GalleryPage() {
         <div className="gallery-page">
             <h1 className="gallery-title">My Photos</h1>
             <SearchBar
+                key={activeTag || 'all'}
                 onSearch={handleSearch}
+                onClear={handleClearFilters}
                 resultCount={photos.length}
                 totalCount={isFiltering ? totalCount : photos.length}
                 initialTags={initialTags}
             />
+            {activeTag && (
+                <div className="gallery-active-filter">
+                    <span className="gallery-active-filter-label">
+                        Filtering by tag:
+                        <span className="gallery-active-filter-tag">{activeTag}</span>
+                    </span>
+                    <button
+                        type="button"
+                        className="gallery-active-filter-clear"
+                        onClick={clearTagFilter}
+                        aria-label={`Clear tag filter: ${activeTag}`}
+                    >
+                        ×
+                    </button>
+                </div>
+            )}
             {photos.length === 0 ? (
                 <p className="gallery-status">No photos yet. Upload some from the map!</p>
             ) : (
@@ -114,8 +152,7 @@ export function GalleryPage() {
                                         {photo.tags.map((tag, i) => (
                                             <span key={i} className="tag tag-clickable" onClick={(e) => {
                                                 e.stopPropagation();
-                                                setSearchParams({ tags: tag });
-                                                handleSearch({ q: '', tags: [tag], startDate: '', endDate: '' });
+                                                handleTagClick(tag);
                                             }}>{tag}</span>
                                         ))}
                                     </div>

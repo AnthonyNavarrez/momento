@@ -9,6 +9,54 @@
     margin-bottom: 24px;
 }
 
+.gallery-active-filter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: -12px 0 20px;
+    padding: 10px 14px;
+    background: #eef2ff;
+    border: 1px solid #d8e0ff;
+    border-radius: 8px;
+}
+
+.gallery-active-filter-label {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.gallery-active-filter-tag {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 10px;
+    background: #4a6cf7;
+    color: #fff;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.gallery-active-filter-clear {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    color: #666;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.gallery-active-filter-clear:hover {
+    background: #d8e0ff;
+    color: #333;
+}
+
 .gallery-status {
     text-align: center;
     margin-top: 60px;
