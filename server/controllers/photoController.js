@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Photo = require('../models/Photo');
+const { normalizeUploadedImage } = require('../config/imageProcessing');
 
 const uploadPhoto = async (req, res) => {
     try {
@@ -14,9 +15,11 @@ const uploadPhoto = async (req, res) => {
             return res.status(400).json({ message: 'Latitude and longitude are required' });
         }
 
+        const filename = await normalizeUploadedImage(req.file);
+
         const photo = await Photo.create({
             user: req.user.id,
-            imageUrl: `/uploads/${req.file.filename}`,
+            imageUrl: `/uploads/${filename}`,
             location: { lat: Number(lat), lng: Number(lng) },
             caption: caption || '',
             tags: tags ? JSON.parse(tags) : [],
@@ -25,6 +28,10 @@ const uploadPhoto = async (req, res) => {
 
         res.status(201).json(photo);
     } catch (err) {
+        if (err instanceof SyntaxError) {
+            return res.status(400).json({ message: 'Invalid tags format' });
+        }
+        console.error('Upload error:', err);
         res.status(500).json({ message: 'Server error' });
     }
 };

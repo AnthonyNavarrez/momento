@@ -119,6 +119,7 @@ function Map() {
   const isMyPhotos = mapView === 'my-photos'
 
   return (
+    <div className="map-wrapper">
     <MapContainer
       className='map-container'
       center={LOS_ANGELES_COORDS}
@@ -187,16 +188,17 @@ function Map() {
       )}
       {!isMyPhotos && <HeatmapLayer points={heatmapPoints} />}
       {isMyPhotos && !isUploadOpen && <MapClickLogger onMapClick={handleMapClick} />}
-      {isMyPhotos && (
-        <PhotoUpload
-          lat={selectedLocation?.lat}
-          lng={selectedLocation?.lng}
-          open={isUploadOpen}
-          onClose={handleCloseUpload}
-          onUploadSuccess={handleUploadSuccess}
-        />
-      )}
     </MapContainer>
+    {isMyPhotos && (
+      <PhotoUpload
+        lat={selectedLocation?.lat}
+        lng={selectedLocation?.lng}
+        open={isUploadOpen}
+        onClose={handleCloseUpload}
+        onUploadSuccess={handleUploadSuccess}
+      />
+    )}
+    </div>
   )
 }
 

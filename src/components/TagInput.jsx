@@ -7,11 +7,13 @@ export function TagInput({tags, onChange, suggestions = []}) {
         setInput(e.target.value);
     }
     function handleKeyDown(e) {
-        const trimmedInput = e.target.value.trim()
-        if(e.key == 'Enter' && e.target.value && !tags.includes(trimmedInput)) {
+        if (e.key === 'Enter') {
             e.preventDefault()
-            onChange([...tags, trimmedInput])
-            setInput('')
+            const trimmedInput = e.target.value.trim()
+            if (trimmedInput && !tags.includes(trimmedInput)) {
+                onChange([...tags, trimmedInput])
+                setInput('')
+            }
         }
     }
     function removeTag(index) {

@@ -7,7 +7,7 @@ function formatDateRange(startDate, endDate) {
     return `Until ${endDate}`;
 }
 
-export function SearchBar({ onSearch, resultCount, totalCount, initialTags = [], onClear, onTagClear }) {
+export function SearchBar({ onSearch, resultCount, totalCount, initialTags = [], onClear, onTagsChange }) {
     const [query, setQuery] = useState('');
     const [tags, setTags] = useState(initialTags);
     const [startDate, setStartDate] = useState('');
@@ -29,13 +29,14 @@ export function SearchBar({ onSearch, resultCount, totalCount, initialTags = [],
         setTags([]);
         setStartDate('');
         setEndDate('');
+        if (onTagsChange) onTagsChange([]);
         if (onClear) onClear();
     };
 
     const removeTag = (tag) => {
         const next = tags.filter((t) => t !== tag);
         setTags(next);
-        if (next.length === 0 && onTagClear) onTagClear();
+        if (onTagsChange) onTagsChange(next);
     };
 
     const activeFilterCount =

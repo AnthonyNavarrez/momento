@@ -41,10 +41,20 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 		if (isLoading) return
 		setError(null)
 
+		if (!file) {
+			setError('Please select a photo to upload.')
+			return
+		}
+
+		if (lat == null || lng == null) {
+			setError('Please click the map to choose a location first.')
+			return
+		}
+
 		const formData = new FormData()
-		if (file) formData.append('photo', file)
-		if (lat !== undefined && lat !== null) formData.append('lat', String(lat))
-		if (lng !== undefined && lng !== null) formData.append('lng', String(lng))
+		formData.append('photo', file)
+		formData.append('lat', String(lat))
+		formData.append('lng', String(lng))
 		formData.append('caption', caption || '')
 		if (tags.length > 0) formData.append('tags', JSON.stringify(tags))
 		if (isPublic) formData.append('isPublic', 'true')
@@ -61,7 +71,8 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 			if (onClose) onClose()
 		} catch (err) {
 			setIsLoading(false)
-			const msg = err?.response?.data?.message || err.message || 'Upload failed'
+			const data = err?.response?.data
+			const msg = data?.message || err.message || 'Upload failed'
 			console.error('Upload failed', err)
 			setError(msg)
 		}
@@ -120,7 +131,7 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 
 					<div className="form-actions">
 						<button type="button" className="btn btn-cancel" onClick={onClose} disabled={isLoading}>Cancel</button>
-						<button type="submit" className="btn btn-submit" disabled={isLoading}>
+						<button type="submit" className="btn btn-submit" disabled={isLoading || !file}>
 							{isLoading && <span className="spinner" aria-hidden="true" />}
 							{isLoading ? 'Uploading...' : 'Submit'}
 						</button>
