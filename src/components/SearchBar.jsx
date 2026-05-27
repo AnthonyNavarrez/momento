@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import './SearchBar.css';
 
-export function SearchBar({ onSearch, resultCount, totalCount }) {
+export function SearchBar({ onSearch, resultCount, totalCount, initialTags = [] }) {
     const [query, setQuery] = useState('');
-    const [tags, setTags] = useState([]);
+    const [tags, setTags] = useState(initialTags);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 

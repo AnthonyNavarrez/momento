@@ -1,0 +1,67 @@
+.tag-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tag-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: #e8edff;
+    color: #3a5ce5;
+    border-radius: 16px;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.tag-chip button {
+    background: none;
+    border: none;
+    color: #3a5ce5;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0 2px;
+    line-height: 1;
+}
+
+.tag-chip button:hover {
+    color: #c0392b;
+}
+
+.tag-text-input {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.tag-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag-suggestion {
+    padding: 4px 10px;
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    font-size: 0.8rem;
+    color: #555;
+    cursor: pointer;
+    transition: background 0.1s ease;
+}
+
+.tag-suggestion:hover {
+    background: #e8edff;
+    color: #3a5ce5;
+    border-color: #3a5ce5;
+}

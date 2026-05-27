@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import api from '../api/axios'
+import { TagInput } from './TagInput'
 import './PhotoUpload.css'
+
+const SUGGESTED_TAGS = [
+	'food', 'sunset', 'beach', 'hiking', 'nightlife',
+	'coffee', 'street art', 'architecture', 'nature', 'sports',
+	'shopping', 'music', 'hidden gem', 'rooftop', 'brunch',
+]
 
 export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSuccess }) {
 	const [file, setFile] = useState(null)
 	const [caption, setCaption] = useState('')
+	const [tags, setTags] = useState([])
 	const [isPublic, setIsPublic] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 	const [error, setError] = useState(null)
@@ -13,6 +21,7 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 		if (!open) {
 			setFile(null)
 			setCaption('')
+			setTags([])
 			setIsPublic(false)
 			setError(null)
 			setIsLoading(false)
@@ -37,6 +46,7 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 		if (lat !== undefined && lat !== null) formData.append('lat', String(lat))
 		if (lng !== undefined && lng !== null) formData.append('lng', String(lng))
 		formData.append('caption', caption || '')
+		if (tags.length > 0) formData.append('tags', JSON.stringify(tags))
 		if (isPublic) formData.append('isPublic', 'true')
 
 		setIsLoading(true)
@@ -86,6 +96,11 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 							placeholder="Add a caption"
 							disabled={isLoading}
 						/>
+					</div>
+
+					<div className="form-row">
+						<label>Tags (optional)</label>
+						<TagInput tags={tags} onChange={setTags} suggestions={SUGGESTED_TAGS} />
 					</div>
 
 					<div className="form-row form-row-checkbox">

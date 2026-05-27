@@ -69,6 +69,38 @@
     padding: 4px 12px;
 }
 
+.photo-detail-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.photo-detail-tags label {
+    width: 100%;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.tag-chip-readonly {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #e8edff;
+    color: #3a5ce5;
+    border-radius: 16px;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.tag-clickable {
+    cursor: pointer;
+    transition: background 0.1s ease;
+}
+
+.tag-clickable:hover {
+    background: #d8e0ff;
+}
+
 .photo-detail-owner-actions {
     display: flex;
     flex-direction: column;

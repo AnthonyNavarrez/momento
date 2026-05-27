@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import { TagInput } from '../components/TagInput';
 import './PhotoDetailPage.css';
 
 export function PhotoDetailPage() {
@@ -53,6 +54,15 @@ export function PhotoDetailPage() {
         }
     };
 
+    const handleTagsChange = async (newTags) => {
+        try {
+            const res = await api.put(`/photos/${id}`, { tags: newTags });
+            setPhoto(res.data);
+        } catch (err) {
+            setError('Failed to update tags.');
+        }
+    };
+
     const handleDelete = async () => {
         if (!window.confirm('Delete this photo? This cannot be undone.')) return;
         setDeleting(true);
@@ -99,6 +109,21 @@ export function PhotoDetailPage() {
 
                     {photo.isPublic && (
                         <span className="photo-detail-badge">Public</span>
+                    )}
+
+                    {isOwner ? (
+                        <div className="photo-detail-tags">
+                            <label>Tags</label>
+                            <TagInput tags={photo.tags || []} onChange={handleTagsChange} />
+                        </div>
+                    ) : (
+                        photo.tags && photo.tags.length > 0 && (
+                            <div className="photo-detail-tags">
+                                {photo.tags.map((tag, i) => (
+                                    <span key={i} className="tag-chip-readonly tag-clickable" onClick={() => navigate(`/gallery?tags=${tag}`)}>{tag}</span>
+                                ))}
+                            </div>
+                        )
                     )}
 
                     {isOwner && (

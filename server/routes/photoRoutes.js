@@ -4,7 +4,14 @@ const { uploadPhoto, getUserPhotos, getPublicPhotos, getPhotoById, updatePhoto, 
 const { protect, optionalAuth } = require('../middleware/auth');
 const upload = require('../config/upload');
 
-router.post('/', protect, upload.single('photo'), uploadPhoto);
+router.post('/', protect, (req, res, next) => {
+    upload.single('photo')(req, res, (err) => {
+        if (err) {
+            return res.status(400).json({ message: err.message });
+        }
+        next();
+    });
+}, uploadPhoto);
 router.get('/', protect, getUserPhotos);
 router.get('/heatmap', getHeatmapData);
 router.get('/public', getPublicPhotos);
