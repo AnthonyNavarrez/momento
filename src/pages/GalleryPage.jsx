@@ -110,7 +110,7 @@ export function GalleryPage() {
 
     return (
         <div className="gallery-page">
-            <h1 className="gallery-title">My Photos</h1>
+            <h1 className="gallery-title">My Gallery</h1>
             <SearchBar
                 onSearch={handleSearch}
                 onClear={handleClearFilters}
@@ -120,13 +120,18 @@ export function GalleryPage() {
                 initialTags={activeTags}
             />
             {photos.length === 0 ? (
-                <p className="gallery-status">No photos yet. Upload some from the map!</p>
+                <div className="gallery-empty">
+                    <p className="gallery-empty-title">No photos yet</p>
+                    <p className="gallery-empty-hint">
+                        Upload photos from the map to start building your gallery.
+                    </p>
+                </div>
             ) : (
                 <div className="gallery-grid">
                     {photos.map((photo) => (
                         <div
                             key={photo._id}
-                            className="gallery-card"
+                            className="gallery-card card"
                             onClick={() => setSelected(photo)}
                         >
                             <img
@@ -134,7 +139,7 @@ export function GalleryPage() {
                                 alt={photo.caption || 'Photo'}
                                 className="gallery-card-img"
                             />
-                            <div className="gallery-card-info">
+                            <div className="gallery-card-body">
                                 {photo.caption && (
                                     <p className="gallery-card-caption">{photo.caption}</p>
                                 )}
