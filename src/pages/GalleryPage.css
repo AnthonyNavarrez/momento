@@ -1,11 +1,16 @@
 .gallery-page {
+    width: 100%;
+    background-color: var(--color-bg-page);
+    min-height: calc(100svh - var(--navbar-height));
+    box-sizing: border-box;
+}
+
+.gallery-page-inner {
     max-width: 1100px;
     width: 100%;
     margin: 0 auto;
     padding: var(--space-8) var(--space-5);
     box-sizing: border-box;
-    background-color: var(--color-bg-page);
-    min-height: 100%;
 }
 
 .gallery-title {

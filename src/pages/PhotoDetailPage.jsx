@@ -75,27 +75,44 @@ export function PhotoDetailPage() {
         }
     };
 
-    if (loading) return <p className="photo-detail-status">Loading photo...</p>;
-    if (error) return <p className="photo-detail-status photo-detail-error">{error}</p>;
+    if (loading) {
+        return (
+            <div className="photo-detail-page">
+                <div className="photo-detail-page-inner">
+                    <p className="photo-detail-status">Loading photo...</p>
+                </div>
+            </div>
+        );
+    }
+    if (error) {
+        return (
+            <div className="photo-detail-page">
+                <div className="photo-detail-page-inner">
+                    <p className="photo-detail-status photo-detail-error">{error}</p>
+                </div>
+            </div>
+        );
+    }
     if (!photo) return null;
 
     return (
         <div className="photo-detail-page">
+            <div className="photo-detail-page-inner">
             <Link to="/explore" className="photo-detail-back">← Back to Explore</Link>
 
-            <div className="photo-detail-layout">
+            <div className="card photo-detail-card">
                 <img
                     src={photo.imageUrl}
                     alt={photo.caption || 'Photo'}
                     className="photo-detail-image"
                 />
 
-                <div className="photo-detail-info">
+                <div className="photo-detail-body">
                     {photo.caption && (
                         <p className="photo-detail-caption">{photo.caption}</p>
                     )}
 
-                    <p className="photo-detail-date">
+                    <p className="photo-detail-meta">
                         {new Date(photo.createdAt).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',
@@ -103,24 +120,36 @@ export function PhotoDetailPage() {
                         })}
                     </p>
 
-                    <p className="photo-detail-location">
+                    <p className="photo-detail-meta">
                         {photo.location.lat.toFixed(4)}, {photo.location.lng.toFixed(4)}
                     </p>
 
-                    {photo.isPublic && (
-                        <span className="photo-detail-badge">Public</span>
-                    )}
+                    <span
+                        className={`photo-detail-badge ${
+                            photo.isPublic
+                                ? 'photo-detail-badge--public'
+                                : 'photo-detail-badge--private'
+                        }`}
+                    >
+                        {photo.isPublic ? 'Public' : 'Private'}
+                    </span>
 
                     {isOwner ? (
-                        <div className="photo-detail-tags">
-                            <label>Tags</label>
+                        <div className="photo-detail-tags-section">
+                            <label className="photo-detail-label">Tags</label>
                             <TagInput tags={photo.tags || []} onChange={handleTagsChange} />
                         </div>
                     ) : (
                         photo.tags && photo.tags.length > 0 && (
                             <div className="photo-detail-tags">
                                 {photo.tags.map((tag, i) => (
-                                    <span key={i} className="tag-chip-readonly tag-clickable" onClick={() => navigate(`/gallery?tags=${tag}`)}>{tag}</span>
+                                    <span
+                                        key={i}
+                                        className="tag tag-clickable"
+                                        onClick={() => navigate(`/gallery?tags=${tag}`)}
+                                    >
+                                        {tag}
+                                    </span>
                                 ))}
                             </div>
                         )
@@ -139,7 +168,8 @@ export function PhotoDetailPage() {
                             </label>
 
                             <button
-                                className="photo-detail-delete"
+                                type="button"
+                                className="btn btn-danger photo-detail-delete"
                                 onClick={handleDelete}
                                 disabled={deleting}
                             >
@@ -148,6 +178,7 @@ export function PhotoDetailPage() {
                         </div>
                     )}
                 </div>
+            </div>
             </div>
         </div>
     );

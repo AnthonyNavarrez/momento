@@ -105,11 +105,28 @@ export function GalleryPage() {
         setTotalCount(allPhotos.length);
     };
 
-    if (loading) return <p className="gallery-status">Loading your photos...</p>;
-    if (error) return <p className="gallery-status gallery-error">{error}</p>;
+    if (loading) {
+        return (
+            <div className="gallery-page">
+                <div className="gallery-page-inner">
+                    <p className="gallery-status">Loading your photos...</p>
+                </div>
+            </div>
+        );
+    }
+    if (error) {
+        return (
+            <div className="gallery-page">
+                <div className="gallery-page-inner">
+                    <p className="gallery-status gallery-error">{error}</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="gallery-page">
+            <div className="gallery-page-inner">
             <h1 className="gallery-title">My Gallery</h1>
             <SearchBar
                 onSearch={handleSearch}
@@ -167,6 +184,8 @@ export function GalleryPage() {
                     ))}
                 </div>
             )}
+
+            </div>
 
             {selected && (
                 <PhotoDetailModal
