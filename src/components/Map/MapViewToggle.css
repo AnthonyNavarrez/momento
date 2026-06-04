@@ -1,8 +1,8 @@
 .map-toggle-container {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 1000;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 800;
   pointer-events: none;
 }
 
@@ -11,73 +11,77 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .map-toggle-segmented {
   display: flex;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
 }
 
 .map-toggle-btn {
-  padding: 8px 16px;
+  padding: var(--space-2) var(--space-4);
   border: none;
   background: transparent;
-  font-size: 13px;
-  font-weight: 600;
-  color: #555;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  font-family: inherit;
+  color: var(--color-text-secondary);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s ease, color 0.2s ease;
   white-space: nowrap;
 }
 
 .map-toggle-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--color-gray-100);
 }
 
 .map-toggle-btn.active {
-  background: #1976d2;
+  background: var(--color-primary);
   color: #fff;
 }
 
 .map-toggle-periods {
   display: flex;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
+  gap: var(--space-1);
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-1);
 }
 
 .map-period-btn {
-  padding: 6px 12px;
+  padding: var(--space-1) var(--space-3);
   border: none;
   background: transparent;
-  font-size: 12px;
-  font-weight: 500;
-  color: #555;
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  font-family: inherit;
+  color: var(--color-text-secondary);
   cursor: pointer;
-  transition: all 0.2s;
+  border-radius: var(--radius-full);
+  transition: background-color 0.2s ease, color 0.2s ease;
   white-space: nowrap;
 }
 
 .map-period-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--color-gray-100);
 }
 
 .map-period-btn.active {
-  background: #1976d2;
-  color: #fff;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
 }
 
 .map-toggle-count {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  padding: 6px 12px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #333;
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
 }
