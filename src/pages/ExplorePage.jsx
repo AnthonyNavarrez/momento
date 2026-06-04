@@ -7,7 +7,7 @@ function ExploreCard({ photo, onClick }) {
     const [imageError, setImageError] = useState(false);
 
     return (
-        <div className="explore-card" onClick={onClick}>
+        <div className="card explore-card" onClick={onClick}>
             {imageError ? (
                 <div className="explore-card-placeholder" aria-hidden="true">
                     <span className="explore-card-placeholder-icon">📷</span>
@@ -104,7 +104,7 @@ export function ExplorePage() {
                     {page < totalPages && (
                         <div className="explore-load-more">
                             <button
-                                className="explore-load-more-btn"
+                                className="btn-primary"
                                 onClick={handleLoadMore}
                                 disabled={loadingMore}
                             >

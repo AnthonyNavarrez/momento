@@ -16,8 +16,8 @@ export function LandingPage() {
                     Upload photos, pin them to real locations across Los Angeles, and explore where the community is going.
                 </p>
                 <div className="landing-cta">
-                    <Link to="/signup" className="landing-btn-primary">Get Started</Link>
-                    <Link to="/explore" className="landing-btn-secondary">Explore Photos</Link>
+                    <Link to="/signup" className="btn btn-primary">Get Started</Link>
+                    <Link to="/explore" className="btn btn-secondary">Explore Photos</Link>
                 </div>
             </section>
 
