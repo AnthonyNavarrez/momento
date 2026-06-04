@@ -41,7 +41,7 @@
 
 .map-toggle-btn.active {
   background: var(--color-primary);
-  color: #fff;
+  color: white;
 }
 
 .map-toggle-periods {
