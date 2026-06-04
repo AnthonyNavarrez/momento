@@ -127,64 +127,63 @@ export function GalleryPage() {
     return (
         <div className="gallery-page">
             <div className="gallery-page-inner">
-            <h1 className="gallery-title">My Gallery</h1>
-            <SearchBar
-                onSearch={handleSearch}
-                onClear={handleClearFilters}
-                onTagsChange={handleTagsChange}
-                resultCount={photos.length}
-                totalCount={isFiltering ? totalCount : photos.length}
-                initialTags={activeTags}
-            />
-            {photos.length === 0 ? (
-                <div className="gallery-empty">
-                    <p className="gallery-empty-title">No photos yet</p>
-                    <p className="gallery-empty-hint">
-                        Upload photos from the map to start building your gallery.
-                    </p>
-                </div>
-            ) : (
-                <div className="gallery-grid">
-                    {photos.map((photo) => (
-                        <div
-                            key={photo._id}
-                            className="gallery-card card"
-                            onClick={() => setSelected(photo)}
-                        >
-                            <img
-                                src={photo.imageUrl}
-                                alt={photo.caption || 'Photo'}
-                                className="gallery-card-img"
-                            />
-                            <div className="gallery-card-body">
-                                {photo.caption && (
-                                    <p className="gallery-card-caption">{photo.caption}</p>
-                                )}
-                                <p className="gallery-card-date">
-                                    {new Date(photo.createdAt).toLocaleDateString()}
-                                </p>
-                                {photo.tags && photo.tags.length > 0 && (
-                                    <div className="gallery-card-tags">
-                                        {photo.tags.map((tag, i) => (
-                                            <span
-                                                key={i}
-                                                className="tag tag-clickable"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleTagClick(tag);
-                                                }}
-                                            >
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-                                )}
+                <h1 className="gallery-title">My Gallery</h1>
+                <SearchBar
+                    onSearch={handleSearch}
+                    onClear={handleClearFilters}
+                    onTagsChange={handleTagsChange}
+                    resultCount={photos.length}
+                    totalCount={isFiltering ? totalCount : photos.length}
+                    initialTags={activeTags}
+                />
+                {photos.length === 0 ? (
+                    <div className="gallery-empty">
+                        <p className="gallery-empty-title">No photos yet</p>
+                        <p className="gallery-empty-hint">
+                            Upload photos from the map to start building your gallery.
+                        </p>
+                    </div>
+                ) : (
+                    <div className="gallery-grid">
+                        {photos.map((photo) => (
+                            <div
+                                key={photo._id}
+                                className="gallery-card card"
+                                onClick={() => setSelected(photo)}
+                            >
+                                <img
+                                    src={photo.imageUrl}
+                                    alt={photo.caption || 'Photo'}
+                                    className="gallery-card-img"
+                                />
+                                <div className="gallery-card-body">
+                                    {photo.caption && (
+                                        <p className="gallery-card-caption">{photo.caption}</p>
+                                    )}
+                                    <p className="gallery-card-date">
+                                        {new Date(photo.createdAt).toLocaleDateString()}
+                                    </p>
+                                    {photo.tags && photo.tags.length > 0 && (
+                                        <div className="gallery-card-tags">
+                                            {photo.tags.map((tag, i) => (
+                                                <span
+                                                    key={i}
+                                                    className="tag tag-clickable"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleTagClick(tag);
+                                                    }}
+                                                >
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            )}
-
+                        ))}
+                    </div>
+                )}
             </div>
 
             {selected && (

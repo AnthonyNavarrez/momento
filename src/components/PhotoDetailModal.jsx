@@ -2,7 +2,7 @@ import { useState } from 'react';
 import api from '../api/axios';
 import './PhotoDetailModal.css';
 
-export default function PhotoDetailModal({ photo, onClose, onDelete }) {
+export default function PhotoDetailModal({ photo, onClose, onDelete, isOwner = true }) {
     const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState(null);
 
@@ -83,14 +83,16 @@ export default function PhotoDetailModal({ photo, onClose, onDelete }) {
 
                     {error && <p className="photo-detail-modal-error">{error}</p>}
 
-                    <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={handleDelete}
-                        disabled={deleting}
-                    >
-                        {deleting ? 'Deleting...' : 'Delete Photo'}
-                    </button>
+                    {isOwner && (
+                        <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={handleDelete}
+                            disabled={deleting}
+                        >
+                            {deleting ? 'Deleting...' : 'Delete Photo'}
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
