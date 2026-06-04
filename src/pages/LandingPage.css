@@ -1,14 +1,39 @@
 .landing-page {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: var(--space-12) var(--space-6);
+    display: flex;
+    min-height: calc(100vh - var(--navbar-height));
+}
+
+/* Left panel — live map */
+.landing-map-panel {
+    position: sticky;
+    top: var(--navbar-height);
+    width: 38%;
+    height: calc(100vh - var(--navbar-height));
+    flex-shrink: 0;
+}
+
+.landing-map {
+    width: 100%;
+    height: 100%;
+}
+
+/* Vertical divider */
+.landing-divider {
+    width: 1px;
+    background-color: var(--color-border);
+    flex-shrink: 0;
+}
+
+/* Right panel — content */
+.landing-content {
+    flex: 1;
+    padding: var(--space-12) var(--space-8);
+    overflow-y: auto;
 }
 
 .landing-hero {
     text-align: center;
     margin-bottom: var(--space-12);
-    background: linear-gradient(135deg, var(--color-primary-lighter) 0%, var(--color-bg) 100%);
-    padding: var(--space-8) var(--space-3);
 }
 
 .landing-title {
@@ -25,7 +50,7 @@
 .landing-subtitle {
     font-size: var(--text-lg);
     color: var(--color-text-secondary);
-    max-width: 560px;
+    max-width: 520px;
     margin: 0 auto var(--space-8);
     line-height: 1.6;
 }
@@ -40,20 +65,20 @@
     font-size: var(--text-2xl);
     font-weight: var(--font-semibold);
     text-align: center;
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-6);
 }
 
 .landing-features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
 }
 
 .landing-feature {
     background: var(--color-bg);
     border-radius: var(--radius-md);
-    padding: var(--space-6);
-    box-shadow: var(--shadow-md);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-sm);
 }
 
 .landing-feature h3 {
@@ -66,4 +91,32 @@
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
     line-height: 1.5;
+}
+
+/* Responsive — stack on narrow screens */
+@media (max-width: 768px) {
+    .landing-page {
+        flex-direction: column;
+    }
+
+    .landing-map-panel {
+        position: relative;
+        top: 0;
+        width: 100%;
+        height: 250px;
+    }
+
+    .landing-divider {
+        width: 100%;
+        height: 1px;
+    }
+
+    .landing-content {
+        padding: var(--space-8) var(--space-6);
+    }
+
+    .landing-features {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
 }
