@@ -11,6 +11,7 @@ export function SignupPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
@@ -31,6 +32,7 @@ export function SignupPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setSubmitting(true);
 
         try {
             const res = await api.post('/auth/register', {
@@ -43,6 +45,7 @@ export function SignupPage() {
 
         } catch (err) {
             setError(err.response?.data?.message || "Something went wrong")
+            setSubmitting(false);
         }
     };
 
@@ -93,7 +96,9 @@ export function SignupPage() {
                         />
                     </div>
 
-                    <button type="submit" className="btn btn-primary signup-submit">Sign up</button>
+                    <button type="submit" className="btn btn-primary signup-submit" disabled={submitting}>
+                        {submitting ? "Signing up..." : "Sign up"}
+                    </button>
                 </form>
 
                 <p className="signup-footer">

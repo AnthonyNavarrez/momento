@@ -9,6 +9,7 @@ export function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
@@ -24,6 +25,7 @@ export function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setSubmitting(true);
 
         try {
             const res = await api.post('/auth/login', {
@@ -35,6 +37,7 @@ export function LoginPage() {
 
         } catch (err) {
             setError("Invalid credentials")
+            setSubmitting(false);
         }
     };
 
@@ -72,7 +75,9 @@ export function LoginPage() {
                         />
                     </div>
 
-                    <button type="submit" className="btn btn-primary login-submit">Log in</button>
+                    <button type="submit" className="btn btn-primary login-submit" disabled={submitting}>
+                        {submitting ? "Logging in..." : "Log in"}
+                    </button>
                 </form>
 
                 <p className="login-footer">
