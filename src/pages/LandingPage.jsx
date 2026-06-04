@@ -30,7 +30,7 @@ export function LandingPage() {
                 <div className="card landing-feature">
                     <h3>🗺️ Build Your Map</h3>
                     <p>Build up your personal map with pinned memories, and add to community heatmaps filtered by week, month, or year.</p>
-</div>
+                </div>
                 <div className="card landing-feature">
                     <h3>🌎 Explore The Community</h3>
                     <p>Search public photos from the community by caption, tags, or date and discover hidden gems around the city.</p>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import api from '../api/axios';
 import './PhotoDetailModal.css';
 
-export default function PhotoDetailModal({ photo, onClose, onDelete }) {
+export default function PhotoDetailModal({ photo, onClose, onDelete, isOwner = true }) {
     const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState(null);
 
@@ -23,50 +23,76 @@ export default function PhotoDetailModal({ photo, onClose, onDelete }) {
     };
 
     return (
-        <div className="modal-backdrop" onClick={handleBackdropClick}>
-            <div className="modal-container">
-                <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+        <div className="overlay" onClick={handleBackdropClick}>
+            <div className="modal photo-detail-modal">
+                <button
+                    type="button"
+                    className="photo-detail-modal-close"
+                    onClick={onClose}
+                    aria-label="Close"
+                >
+                    ×
+                </button>
 
                 <img
                     src={photo.imageUrl}
                     alt={photo.caption || 'Photo'}
-                    className="modal-image"
+                    className="photo-detail-modal-image"
                 />
 
-                <div className="modal-details">
+                <div className="photo-detail-modal-body">
                     {photo.caption && (
-                        <p className="modal-caption">{photo.caption}</p>
+                        <p className="photo-detail-modal-caption">{photo.caption}</p>
                     )}
 
-                    <div className="modal-meta">
-                        <span className="modal-meta-label">📍 Location</span>
-                        <span>{photo.location.lat.toFixed(4)}, {photo.location.lng.toFixed(4)}</span>
-                    </div>
+                    <p className="photo-detail-modal-meta">
+                        <span className="photo-detail-modal-meta-label">Location</span>
+                        {photo.location.lat.toFixed(4)}, {photo.location.lng.toFixed(4)}
+                    </p>
 
-                    <div className="modal-meta">
-                        <span className="modal-meta-label">📅 Date</span>
-                        <span>{new Date(photo.createdAt).toLocaleDateString('en-US', {
-                            year: 'numeric', month: 'long', day: 'numeric'
-                        })}</span>
-                    </div>
+                    <p className="photo-detail-modal-meta">
+                        <span className="photo-detail-modal-meta-label">Date</span>
+                        {new Date(photo.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                        })}
+                    </p>
+
+                    {photo.isPublic !== undefined && (
+                        <span
+                            className={`photo-detail-modal-badge ${
+                                photo.isPublic
+                                    ? 'photo-detail-modal-badge--public'
+                                    : 'photo-detail-modal-badge--private'
+                            }`}
+                        >
+                            {photo.isPublic ? 'Public' : 'Private'}
+                        </span>
+                    )}
 
                     {photo.tags && photo.tags.length > 0 && (
-                        <div className="modal-tags">
+                        <div className="photo-detail-modal-tags">
                             {photo.tags.map((tag, i) => (
-                                <span key={i} className="tag">{tag}</span>
+                                <span key={i} className="tag">
+                                    {tag}
+                                </span>
                             ))}
                         </div>
                     )}
 
-                    {error && <p className="modal-error">{error}</p>}
+                    {error && <p className="photo-detail-modal-error">{error}</p>}
 
-                    <button
-                        className="modal-delete-btn"
-                        onClick={handleDelete}
-                        disabled={deleting}
-                    >
-                        {deleting ? 'Deleting...' : 'Delete Photo'}
-                    </button>
+                    {isOwner && (
+                        <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={handleDelete}
+                            disabled={deleting}
+                        >
+                            {deleting ? 'Deleting...' : 'Delete Photo'}
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

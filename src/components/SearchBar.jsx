@@ -46,7 +46,7 @@ export function SearchBar({ onSearch, resultCount, totalCount, initialTags = [],
     return (
         <div className="searchbar-container">
             <input
-                className="searchbar-input"
+                className="input searchbar-input"
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -54,14 +54,18 @@ export function SearchBar({ onSearch, resultCount, totalCount, initialTags = [],
             />
             <div className="searchbar-dates">
                 <input
+                    className="input searchbar-date-input"
                     type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
+                    aria-label="Start date"
                 />
                 <input
+                    className="input searchbar-date-input"
                     type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
+                    aria-label="End date"
                 />
             </div>
 
