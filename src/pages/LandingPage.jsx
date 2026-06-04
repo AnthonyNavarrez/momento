@@ -11,7 +11,7 @@ export function LandingPage() {
     return (
         <div className="landing-page">
             <section className="landing-hero">
-                <h1 className="landing-title">Pin your memories to the map</h1>
+                <h1 className="landing-title">Pin your <span className="landing-title-highlight">memories</span> to the map</h1>
                 <p className="landing-subtitle">
                     Upload photos, pin them to real locations across Los Angeles, and explore where the community is going.
                 </p>
