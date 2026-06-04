@@ -14,6 +14,21 @@ export function SignupPage() {
     const { login } = useAuth();
     const navigate = useNavigate();
 
+    const handleUsernameChange = (c) => {
+        setUsername(c.target.value);
+        if (error) setError(null);
+    };
+
+    const handleEmailChange = (c) => {
+        setEmail(c.target.value);
+        if (error) setError(null);
+    };
+
+    const handlePasswordChange = (c) => {
+        setPassword(c.target.value);
+        if (error) setError(null);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -30,16 +45,61 @@ export function SignupPage() {
             setError(err.response?.data?.message || "Something went wrong")
         }
     };
+
     return (
-        <div className="signup-container">
-            <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="Username" value={username} onChange={((c) => setUsername(c.target.value))}/>
-                <input type="email" placeholder="Email" value={email} onChange={((c) => setEmail(c.target.value))}/>
-                <input type="password" placeholder="Password" value={password} onChange={((c) => setPassword(c.target.value))}/>
-                <button type="submit">Sign up</button>
-            </form>
-            {error && <p>{error}</p>}
-            <Link to="/login">Already have an account? Log in</Link>
+        <div className="signup-page">
+            <div className="card signup-card">
+                <h1 className="signup-title">Create your account</h1>
+
+                {error && <div className="signup-error">{error}</div>}
+
+                <form className="signup-form" onSubmit={handleSubmit}>
+                    <div className="signup-field">
+                        <label className="signup-label" htmlFor="signup-username">Username</label>
+                        <input
+                            id="signup-username"
+                            type="text"
+                            className="input"
+                            placeholder="yourname"
+                            value={username}
+                            onChange={handleUsernameChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="signup-field">
+                        <label className="signup-label" htmlFor="signup-email">Email</label>
+                        <input
+                            id="signup-email"
+                            type="email"
+                            className="input"
+                            placeholder="you@example.com"
+                            value={email}
+                            onChange={handleEmailChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="signup-field">
+                        <label className="signup-label" htmlFor="signup-password">Password</label>
+                        <input
+                            id="signup-password"
+                            type="password"
+                            className="input"
+                            placeholder="Pick a password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                            required
+                        />
+                    </div>
+
+                    <button type="submit" className="btn btn-primary signup-submit">Sign up</button>
+                </form>
+
+                <p className="signup-footer">
+                    Already have an account? <Link to="/login">Log in</Link>
+                </p>
+            </div>
         </div>
     )
 }
