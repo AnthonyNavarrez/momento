@@ -78,23 +78,38 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 		}
 	}
 
+	const handleDropzoneClick = () => {
+		document.getElementById('photo-file').click()
+	}
+
 	return (
 		<div className="photo-upload-overlay" onClick={(e) => {
 			if (e.target === e.currentTarget && onClose) onClose()
 		}}>
 			<div className="photo-upload-modal" role="dialog" aria-modal="true" aria-label="Upload photo" onClick={(e) => e.stopPropagation()}>
 				<form className="photo-upload-form" onSubmit={handleSubmit}>
-					<h2>Add Photo</h2>
+					<h2>Upload Photo</h2>
 
 					<div className="form-row">
 						<label>Location</label>
-						<div className="location-display">{lat}, {lng}</div>
+						<div className="location-display">📍 {lat}, {lng}</div>
 					</div>
 
 					<div className="form-row">
-						<label htmlFor="photo-file">Photo</label>
-						<input id="photo-file" type="file" accept="image/*" onChange={handleFileChange} disabled={isLoading} />
-						{file && <div className="file-name">{file.name}</div>}
+						<label>Photo</label>
+						<div
+							className="photo-upload-dropzone"
+							onClick={handleDropzoneClick}
+							role="button"
+							tabIndex={0}
+							onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleDropzoneClick() }}
+						>
+							<span className="photo-upload-dropzone-icon">📷</span>
+							<span className="photo-upload-dropzone-text">
+								{file ? file.name : 'Click to select a photo'}
+							</span>
+							<input id="photo-file" type="file" accept="image/*" onChange={handleFileChange} disabled={isLoading} />
+						</div>
 					</div>
 
 					<div className="form-row">
@@ -102,6 +117,7 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 						<input
 							id="caption"
 							type="text"
+							className="input"
 							value={caption}
 							onChange={(e) => setCaption(e.target.value)}
 							placeholder="Add a caption"
@@ -130,10 +146,10 @@ export default function PhotoUpload({ lat, lng, open = true, onClose, onUploadSu
 					{error && <div className="error-message" role="alert">{error}</div>}
 
 					<div className="form-actions">
-						<button type="button" className="btn btn-cancel" onClick={onClose} disabled={isLoading}>Cancel</button>
-						<button type="submit" className="btn btn-submit" disabled={isLoading || !file}>
+						<button type="button" className="btn btn-outline" onClick={onClose} disabled={isLoading}>Cancel</button>
+						<button type="submit" className="btn btn-primary" disabled={isLoading || !file}>
 							{isLoading && <span className="spinner" aria-hidden="true" />}
-							{isLoading ? 'Uploading...' : 'Submit'}
+							{isLoading ? 'Uploading...' : 'Upload'}
 						</button>
 					</div>
 				</form>
