@@ -17,11 +17,11 @@ export function LandingPage() {
                 </p>
                 <div className="landing-cta">
                     <Link to="/signup" className="btn btn-primary">Get Started</Link>
-                    <Link to="/explore" className="btn btn-secondary">Explore Photos</Link>
+                    <Link to="/explore" className="btn btn-outline">Explore Photos</Link>
                 </div>
             </section>
 
-            <div className="landing-features-title">How It Works</div>
+            <h2 className="landing-features-title">How It Works</h2>
             <section className="landing-features">
                 <div className="card landing-feature">
                     <h3>📍 Pin Your Photos</h3>
@@ -30,11 +30,10 @@ export function LandingPage() {
                 <div className="card landing-feature">
                     <h3>🗺️ Build Your Map</h3>
                     <p>Build up your personal map with pinned memories, and add to community heatmaps filtered by week, month, or year.</p>
-                    
-                </div>
+</div>
                 <div className="card landing-feature">
                     <h3>🌎 Explore The Community</h3>
-                    <p>Search public photos from the commmunity by caption, tags, or date and discover hidden gems around the city.</p>
+                    <p>Search public photos from the community by caption, tags, or date and discover hidden gems around the city.</p>
                 </div>
             </section>
         </div>

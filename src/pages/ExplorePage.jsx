@@ -104,7 +104,7 @@ export function ExplorePage() {
                     {page < totalPages && (
                         <div className="explore-load-more">
                             <button
-                                className="btn-primary"
+                                className="btn btn-primary"
                                 onClick={handleLoadMore}
                                 disabled={loadingMore}
                             >
