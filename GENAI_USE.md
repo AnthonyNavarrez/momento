@@ -13,21 +13,21 @@ This file documents generative AI assistance used while creating Momento followi
 
 ---
 
-# echen078-Authored Feature Disclosures
-## Notes
+## echen078-Authored Feature Disclosures
+### Notes
 
 Some prompts below are reconstructed from memory because the exact original chat transcripts were not preserved. The descriptions are intended to accurately represent the type of assistance received and how the generated output was used.
 
 All generated code, suggestions, and documentation were reviewed, modified, tested, and integrated into the project before being committed.
 
-## Overall Ownership Estimate
+### Overall Ownership Estimate
 
 I feel ownership over approximately 75% of the code I personally committed.
 
 Generative AI was primarily used for implementation guidance, debugging support, React/Express patterns, test generation, and documentation drafting. I reviewed all generated outputs, adapted them to the existing codebase, and verified behavior through manual testing and project requirements before committing changes.
 
 
-## Sprint 3 Map Integration
+### Sprint 3 Map Integration
 
 ```js
 // [GenAI Use] Prompt:
@@ -47,7 +47,7 @@ Generative AI was primarily used for implementation guidance, debugging support,
 
 ---
 
-## Sprint 8 Public Photos and Community Explore Feed
+### Sprint 8 Public Photos and Community Explore Feed
 
 ```js
 // [GenAI Use] Prompt:
@@ -67,7 +67,7 @@ Generative AI was primarily used for implementation guidance, debugging support,
 
 ---
 
-## Sprint 8 Public Photo E2E Tests
+### Sprint 8 Public Photo E2E Tests
 
 ```js
 // [GenAI Use] Prompt:
@@ -87,7 +87,7 @@ Generative AI was primarily used for implementation guidance, debugging support,
 
 ---
 
-## Public/Private Sharing Controls in Upload and Photo Detail
+### Public/Private Sharing Controls in Upload and Photo Detail
 
 ```js
 // [GenAI Use] Prompt:
@@ -107,7 +107,7 @@ Generative AI was primarily used for implementation guidance, debugging support,
 
 ---
 
-## Upload and Image Handling Improvements
+### Upload and Image Handling Improvements
 
 ```js
 // [GenAI Use] Prompt:
@@ -127,7 +127,7 @@ Generative AI was primarily used for implementation guidance, debugging support,
 
 ---
 
-## Sprint 15 Gallery, Photo Detail & Search Restyle
+### Sprint 15 Gallery, Photo Detail & Search Restyle
 
 ```js
 // [GenAI Use] Prompt:
@@ -147,7 +147,7 @@ Generative AI was primarily used for implementation guidance, debugging support,
 
 ---
 
-## Explore Revamp, Likes, and View-on-Map Flow
+### Explore Revamp, Likes, and View-on-Map Flow
 
 ```js
 // [GenAI Use] Prompt:
