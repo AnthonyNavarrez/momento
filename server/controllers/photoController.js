@@ -3,6 +3,19 @@ const path = require('path');
 const Photo = require('../models/Photo');
 const { normalizeUploadedImage } = require('../config/imageProcessing');
 
+const formatPhotoResponse = (photo, userId = null) => {
+    const data = photo.toObject ? photo.toObject() : photo;
+    const { likes = [], ...photoData } = data;
+
+    return {
+        ...photoData,
+        likeCount: likes.length,
+        likedByMe: userId ? likes.some((likeUserId) => (
+            String(likeUserId._id || likeUserId) === String(userId)
+        )) : false,
+    };
+};
+
 const uploadPhoto = async (req, res) => {
     try {
         if (!req.file) {
@@ -26,7 +39,7 @@ const uploadPhoto = async (req, res) => {
             isPublic: isPublic === 'true' || isPublic === true,
         });
 
-        res.status(201).json(photo);
+        res.status(201).json(formatPhotoResponse(photo, req.user.id));
     } catch (err) {
         if (err instanceof SyntaxError) {
             return res.status(400).json({ message: 'Invalid tags format' });
@@ -39,8 +52,8 @@ const uploadPhoto = async (req, res) => {
 const getUserPhotos = async (req, res) => {
     try {
         const photos = await Photo.find({ user: req.user.id }).sort({ createdAt: -1 });
-        res.json(photos);
-    } catch (err) {
+        res.json(photos.map((photo) => formatPhotoResponse(photo, req.user.id)));
+    } catch {
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -61,7 +74,12 @@ const getPublicPhotos = async (req, res) => {
             .skip(skip)
             .limit(limit);
 
-        res.json({ photos, page, totalPages, totalPhotos });
+        res.json({
+            photos: photos.map((photo) => formatPhotoResponse(photo, req.user?.id)),
+            page,
+            totalPages,
+            totalPhotos,
+        });
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
@@ -69,18 +87,19 @@ const getPublicPhotos = async (req, res) => {
 
 const getPhotoById = async (req, res) => {
     try {
-        const photo = await Photo.findById(req.params.id);
+        const photo = await Photo.findById(req.params.id).populate('user', 'username');
 
         if (!photo) {
             return res.status(404).json({ message: 'Photo not found' });
         }
 
         if (photo.isPublic) {
-            return res.json(photo);
+            return res.json(formatPhotoResponse(photo, req.user?.id));
         }
 
-        if (req.user && photo.user.toString() === req.user.id) {
-            return res.json(photo);
+        const ownerId = photo.user._id || photo.user;
+        if (req.user && String(ownerId) === String(req.user.id)) {
+            return res.json(formatPhotoResponse(photo, req.user.id));
         }
 
         return res.status(403).json({ message: 'Not authorized to view this photo' });
@@ -110,7 +129,7 @@ const updatePhoto = async (req, res) => {
         }
 
         await photo.save();
-        res.json(photo);
+        res.json(formatPhotoResponse(photo, req.user.id));
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
@@ -137,6 +156,35 @@ const deletePhoto = async (req, res) => {
 
         res.json({ message: 'Photo deleted' });
     } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+const toggleLikePhoto = async (req, res) => {
+    try {
+        const photo = await Photo.findById(req.params.id).populate('user', 'username');
+
+        if (!photo) {
+            return res.status(404).json({ message: 'Photo not found' });
+        }
+
+        if (!photo.isPublic) {
+            return res.status(403).json({ message: 'Cannot like a private photo' });
+        }
+
+        const existingLikeIndex = photo.likes.findIndex((likeUserId) => (
+            String(likeUserId) === String(req.user.id)
+        ));
+
+        if (existingLikeIndex >= 0) {
+            photo.likes.splice(existingLikeIndex, 1);
+        } else {
+            photo.likes.push(req.user.id);
+        }
+
+        await photo.save();
+        res.json(formatPhotoResponse(photo, req.user.id));
+    } catch {
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -203,10 +251,15 @@ const searchPhotos = async (req, res) => {
         const photos = await Photo.find(query).sort({ createdAt: -1 }).skip((page-1)*limit).limit(limit);
         const totalPhotos = await Photo.countDocuments(query);
         const totalPages = Math.ceil(totalPhotos/limit)
-        res.json({photos, page, totalPages, totalPhotos});
+        res.json({
+            photos: photos.map((photo) => formatPhotoResponse(photo, req.user.id)),
+            page,
+            totalPages,
+            totalPhotos,
+        });
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
 };
 
-module.exports = { uploadPhoto, getUserPhotos, getPublicPhotos, getPhotoById, updatePhoto, deletePhoto, searchPhotos, getHeatmapData };
+module.exports = { uploadPhoto, getUserPhotos, getPublicPhotos, getPhotoById, updatePhoto, deletePhoto, toggleLikePhoto, searchPhotos, getHeatmapData };

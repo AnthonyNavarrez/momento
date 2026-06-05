@@ -82,6 +82,16 @@ export function GalleryPage() {
         setSelected(null);
     };
 
+    const handlePhotoUpdate = (updatedPhoto) => {
+        const replacePhoto = (photo) => (
+            photo._id === updatedPhoto._id ? updatedPhoto : photo
+        );
+
+        setPhotos((prev) => prev.map(replacePhoto));
+        setAllPhotos((prev) => prev.map(replacePhoto));
+        setSelected(updatedPhoto);
+    };
+
     const handleTagClick = (tag) => {
         if (activeTags.includes(tag)) return;
         setSearchParams({ tags: [...activeTags, tag].join(',') });
@@ -203,6 +213,7 @@ export function GalleryPage() {
                     photo={selected}
                     onClose={() => setSelected(null)}
                     onDelete={handleDelete}
+                    onUpdate={handlePhotoUpdate}
                 />
             )}
         </div>

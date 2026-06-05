@@ -14,10 +14,10 @@ export function NavBar() {
             <Link to={user ? '/map' : '/'} className="navbar-logo">Momento</Link>
 
             <div className="navbar-links">
-                <Link to="/explore" className={isActive('/explore')}>Explore</Link>
                 {user && (
                     <>
                         <Link to="/map" className={isActive('/map')}>Map</Link>
+                        <Link to="/explore" className={isActive('/explore')}>Explore</Link>
                         <Link to="/gallery" className={isActive('/gallery')}>Gallery</Link>
                     </>
                 )}

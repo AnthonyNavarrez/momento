@@ -98,7 +98,7 @@ export function PhotoDetailPage() {
     return (
         <div className="photo-detail-page">
             <div className="photo-detail-page-inner">
-                <Link to="/explore" className="photo-detail-back">← Back to Explore</Link>
+                <Link to="/map" className="photo-detail-back">← Back to Map</Link>
 
                 <div className="card photo-detail-card">
                     <img

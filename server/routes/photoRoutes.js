@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { uploadPhoto, getUserPhotos, getPublicPhotos, getPhotoById, updatePhoto, deletePhoto, getHeatmapData, searchPhotos } = require('../controllers/photoController');
+const { uploadPhoto, getUserPhotos, getPublicPhotos, getPhotoById, updatePhoto, deletePhoto, toggleLikePhoto, getHeatmapData, searchPhotos } = require('../controllers/photoController');
 const { protect, optionalAuth } = require('../middleware/auth');
 const upload = require('../config/upload');
 
@@ -14,8 +14,9 @@ router.post('/', protect, (req, res, next) => {
 }, uploadPhoto);
 router.get('/', protect, getUserPhotos);
 router.get('/heatmap', getHeatmapData);
-router.get('/public', getPublicPhotos);
+router.get('/public', optionalAuth, getPublicPhotos);
 router.get('/search', protect, searchPhotos);
+router.post('/:id/like', protect, toggleLikePhoto);
 router.get('/:id', optionalAuth, getPhotoById);
 router.put('/:id', protect, updatePhoto);
 router.delete('/:id', protect, deletePhoto);
