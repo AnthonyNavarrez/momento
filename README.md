@@ -27,6 +27,26 @@ Momento is a photo-centric mapping app for Los Angeles. Users upload photos, pin
 | Map tiles | CartoDB Voyager (via CARTO CDN) |
 | Testing | pytest + requests (E2E) |
 
+## Architecture
+
+Momento is a monorepo with a React frontend (Vite) and an Express backend. The Vite dev server proxies `/api` and `/uploads` requests to Express on port 5001. Authenticated routes use JWT middleware; photo metadata is stored in MongoDB Atlas and image files are saved to `server/uploads/`.
+
+### Login Flow
+
+When a user logs in, the frontend sends credentials to the Express server, which verifies the password with bcrypt and returns a JWT. The token is stored in `localStorage` and attached to subsequent API requests.
+
+![Login authentication sequence diagram](docs/architecture/login-flow.png)
+
+The sequence above shows the full login path: `LoginPage.jsx` calls `AuthContext`, which posts to `/api/auth/login` via `axios.js`. The Express server routes the request to `authController.js`, which looks up the user in MongoDB. On success, bcrypt validates the password, a JWT is generated, and the token is saved to `localStorage` before the user is redirected to the map. On failure, a 401 response triggers an error message on the login page.
+
+### Gallery Search Flow
+
+Authenticated users can search their personal gallery by caption, tags, and date range. The search request is scoped to the logged-in user's photos and returns paginated results.
+
+![Gallery search flowchart](docs/architecture/search-flow.png)
+
+The flowchart above shows how a search query travels through the system: the user types into `SearchBar`, which passes filters to `GalleryPage`. The page calls `GET /api/photos/search` via axios (with the JWT attached), Express verifies the token through the `protect` middleware, and `searchPhotos` in `photoController.js` queries MongoDB for matching photos. Results are returned with pagination metadata and rendered in the gallery grid.
+
 ## Getting Started
 
 ### Prerequisites
@@ -106,6 +126,7 @@ pytest -v
 ```
 
 Test files follow the pattern `tests/test_sprint<N>_<feature>.py`. Shared fixtures (base URL, auth helpers) are in `tests/conftest.py`.
+
 
 ## Project Structure
 
