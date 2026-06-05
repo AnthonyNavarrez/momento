@@ -8,7 +8,9 @@ Momento is a photo-centric mapping app for Los Angeles. Users upload photos, pin
 - **Photo uploads** — Multipart upload with JPEG/PNG/HEIC support, automatic image normalization
 - **Authentication** — JWT-based signup/login with protected routes and persistent sessions
 - **Personal gallery** — Browse your photos in a responsive grid with search, tag filtering, and date ranges
-- **Community explore** — Paginated public photo feed with broken-image placeholders
+- **Community explore** — Paginated public photo feed with likes, owner badges, broken-image placeholders, and in-feed editing for your own uploads
+- **Photo likes** — Like/unlike public photos from Explore or the photo detail modal; like counts persist on the server
+- **View on Map** — Jump from a photo's detail modal to its pinned location on the map
 - **Community heatmap** — Aggregated density overlay of public photos with week/month/year/all-time toggles
 - **Tagging system** — Add/remove tags, suggested tags, clickable tag filters synced to URL params
 - **Photo detail** — View/edit caption, tags, and public/private visibility; owner-only delete
@@ -105,10 +107,11 @@ The app will be available at `http://localhost:5173`.
 | GET | `/api/auth/me` | Yes | Current user profile |
 | POST | `/api/photos` | Yes | Upload photo (multipart, field: `photo`) |
 | GET | `/api/photos` | Yes | User's photos |
-| GET | `/api/photos/public` | No | Paginated public photos |
+| GET | `/api/photos/public` | Optional | Paginated public photos (includes `likeCount`/`likedByMe` when authenticated) |
 | GET | `/api/photos/search` | Yes | Search by caption, tags, date range |
 | GET | `/api/photos/heatmap` | No | Heatmap points with period filter |
 | GET | `/api/photos/:id` | Optional | Single photo (owner or public) |
+| POST | `/api/photos/:id/like` | Yes | Toggle like on a public photo |
 | PUT | `/api/photos/:id` | Yes | Update caption, tags, visibility |
 | DELETE | `/api/photos/:id` | Yes | Delete photo (owner only) |
 
