@@ -5,7 +5,14 @@ import PhotoDetailModal from '../components/PhotoDetailModal';
 import { useAuth } from '../context/AuthContext';
 import './ExplorePage.css';
 
-function ExploreCard({ photo, isOwner, onClick, onEdit, onToggleLike, liking }) {
+function ExploreCard({
+    photo,
+    isOwner,
+    onClick,
+    onEdit,
+    onToggleLike,
+    liking,
+}) {
     const [imageError, setImageError] = useState(false);
 
     return (
@@ -89,8 +96,6 @@ export function ExplorePage() {
         try {
             if (append) {
                 setLoadingMore(true);
-            } else {
-                setLoading(true);
             }
 
             const res = await api.get('/photos/public', {
@@ -141,7 +146,11 @@ export function ExplorePage() {
     };
 
     useEffect(() => {
-        fetchPhotos(1);
+        const timeoutId = setTimeout(() => {
+            fetchPhotos(1);
+        }, 0);
+
+        return () => clearTimeout(timeoutId);
     }, []);
 
     const handleLoadMore = () => {
@@ -164,6 +173,10 @@ export function ExplorePage() {
     const openEditModal = (photo) => {
         setSelectedPhoto(photo);
         setModalMode('edit');
+    };
+
+    const handleViewOnMap = (photo) => {
+        navigate(`/map?photo=${photo._id}`);
     };
 
     const closeModal = () => {
@@ -243,6 +256,7 @@ export function ExplorePage() {
                     isOwner={modalMode === 'edit'}
                     canLike={modalMode !== 'edit'}
                     onToggleLike={handleToggleLike}
+                    onViewOnMap={handleViewOnMap}
                     liking={likingPhotoIds.includes(selectedPhoto._id)}
                 />
             )}

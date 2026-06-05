@@ -72,6 +72,12 @@
     min-width: 72px;
 }
 
+.photo-detail-modal-map {
+    width: 100%;
+    justify-content: center;
+    margin-top: var(--space-2);
+}
+
 .photo-detail-modal-badge {
     display: inline-block;
     width: fit-content;

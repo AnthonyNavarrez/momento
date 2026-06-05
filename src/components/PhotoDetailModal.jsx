@@ -11,6 +11,7 @@ export default function PhotoDetailModal({
     isOwner = true,
     canLike = false,
     onToggleLike,
+    onViewOnMap,
     liking = false,
 }) {
     const [updating, setUpdating] = useState(false);
@@ -150,6 +151,16 @@ export default function PhotoDetailModal({
                     )}
 
                     {error && <p className="photo-detail-modal-error">{error}</p>}
+
+                    {onViewOnMap && (
+                        <button
+                            type="button"
+                            className="btn btn-primary photo-detail-modal-map"
+                            onClick={() => onViewOnMap(photo)}
+                        >
+                            View on Map
+                        </button>
+                    )}
 
                     {isOwner && (
                         <div className="photo-detail-modal-owner-actions">
