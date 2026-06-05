@@ -164,3 +164,139 @@ Generative AI was primarily used for implementation guidance, debugging support,
 //
 // I feel ownership over approximately 85% of this feature. AI assisted with implementation ideas, while I integrated the functionality and validated behavior across the application.
 ```
+
+---
+
+# gokulnambiar (gn-67) - Authored Feature Disclosures
+
+## Notes
+
+Prompts below are reconstructed from memory as exact transcripts were not preserved. I used Claude Code (CLI) as my primary GenAI tool throughout the project. My workflow was to describe what I needed, review the suggested approach or code, and either implement it myself based on the guidance or carefully review every edit before accepting. All generated code was tested manually before committing.
+
+## Overall Ownership Estimate
+
+I feel ownership over approximately 75-80% of the code I personally committed.
+
+Generative AI was primarily used for planning implementation approaches, scaffolding boilerplate, generating tests from existing patterns, and debugging. I authored all 16 sprint specs myself without AI assistance, reviewed all generated code, and made final implementation decisions.
+
+## Sprint 4 — Photo Upload API
+
+```js
+// [GenAI Use] Prompt:
+// "I need to set up the photo upload API for Momento. We need Multer disk storage configuration that accepts JPEG, PNG, and HEIC files up to 10MB, with timestamped filenames. What is the best way to do this?
+// Build a photoController with uploadPhoto (accepts multipart form data with lat/lng/caption/tags), getUserPhotos (sorted by createdAt desc), getPhotoById (owner or public access), and deletePhoto (owner only). Wire up routes at /api/photos with JWT protect middleware."
+
+// [GenAI Use] LLM Response Start
+// The LLM suggested Multer configuration with file filtering, controller functions with try/catch error handling, and RESTful route definitions with middleware chaining.
+// [GenAI Use] LLM Response End
+
+// [GenAI Use] Reflection:
+// I used the suggestions as a starting point but adapted the Multer config, error messages, and response shapes to match our existing auth controller patterns. I tested all endpoints manually with Postman before committing.
+
+// [GenAI Use] Ownership: 75%
+//
+// AI provided the boilerplate structure, but I adapted it to our codebase conventions, configured storage paths, and validated all edge cases (invalid file types, missing fields, unauthorized access).
+```
+
+---
+
+## Sprint 9 — Community Heatmap
+
+```js
+// [GenAI Use] Prompt:
+// "Add a community heatmap to the map page. Backend: create a GET /api/photos/heatmap endpoint that aggregates public photo locations with optional period filtering (week/month/year) using MongoDB date queries. Frontend: build a HeatmapLayer component that wraps the leaflet.heat plugin as a renderless React component, and a MapViewToggle component to switch between 'My Photos' and 'Community Heatmap' views with period filter buttons."
+
+// [GenAI Use] LLM Response Start
+// The LLM suggested a backend aggregation approach using $gte date filtering, a renderless React component pattern for the Leaflet heat plugin, and a toggle UI with period buttons.
+// [GenAI Use] LLM Response End
+
+// [GenAI Use] Reflection:
+// The heatmap required integrating an imperative Leaflet plugin (leaflet.heat) with React's declarative model. I reviewed the suggested renderless component pattern, understood the useMap/useEffect approach, and implemented it with proper cleanup. The backend aggregation logic I largely wrote myself based on the suggested $gte pattern.
+
+// [GenAI Use] Ownership: 80%
+//
+// The renderless component pattern and leaflet.heat integration were guided by AI, but I implemented the backend date filtering, wired the toggle state through Map.jsx, and debugged z-index and styling issues myself.
+```
+
+---
+
+
+## Sprint 16 — Map Page Restyle
+
+```js
+// [GenAI Use] Prompt:
+// "Restyle the map page to use our design system tokens from Sprint 12. Replace all hardcoded colors and styles in PhotoUpload modal, MapViewToggle, and MapPin popups with CSS variables (var(--color-primary), var(--space-*), etc.) and shared classes (.btn, .btn-primary, .btn-outline, .card, .tag). Add a styled dropzone to the upload modal, make toggle buttons pill-shaped with orange active states, and override Leaflet popup styles to match the design system."
+
+// [GenAI Use] LLM Response Start
+// The LLM suggested CSS variable replacements, Leaflet popup override selectors, dropzone UI patterns with accessibility attributes, and button class mappings.
+// [GenAI Use] LLM Response End
+
+// [GenAI Use] Reflection:
+// I used Claude Code to apply the design token replacements across multiple CSS files. I reviewed every edit to ensure the correct variables were used and no existing functionality broke. The Leaflet popup overrides required trial and error that I worked through with AI assistance.
+
+// [GenAI Use] Ownership: 75%
+//
+// The token replacement was largely mechanical and AI-assisted, but I made all styling decisions (which tokens to use, spacing values, popup layout) and manually verified the visual output.
+```
+
+---
+
+## Landing Page Redesign
+
+```js
+// [GenAI Use] Prompt:
+// "Redesign the landing page. I want a split layout with a live interactive Leaflet map on the left third of the screen, a vertical divider, and the existing content (hero text, CTA buttons, feature cards) on the right. The map should use CartoDB Voyager tiles and be fully interactive. Make it responsive — stack vertically on mobile."
+
+// [GenAI Use] LLM Response Start
+// The LLM suggested a flex layout with sticky map panel, the InvalidateSize component pattern to fix Leaflet's gray tile issue when the container size isn't known at mount, and responsive breakpoints for mobile stacking.
+// [GenAI Use] LLM Response End
+
+// [GenAI Use] Reflection:
+// This went through several iterations. I started with a map background, then moved to a split layout, and refined it interactively with AI assistance. The InvalidateSize fix was critical — without it the map rendered gray tiles. I directed each iteration based on how it looked in the browser.
+
+// [GenAI Use] Ownership: 60%
+//
+// AI generated the layout code and the InvalidateSize workaround, but I drove the design direction through multiple iterations, made all visual decisions, and debugged rendering issues by inspecting the result in-browser after each change.
+```
+
+---
+
+## Test Generation (Multiple Sprints)
+
+```js
+// [GenAI Use] Prompt:
+// "Write E2E tests for [sprint feature] following the patterns in test_sprint4_photos.py and conftest.py. Use pytest + requests, hit the running Express server, cover success and error cases, and use the shared auth fixtures."
+
+// [GenAI Use] LLM Response Start
+// The LLM generated pytest test suites matching existing conventions — using conftest fixtures, testing status codes, response shapes, and error handling for each endpoint.
+// [GenAI Use] LLM Response End
+
+// [GenAI Use] Reflection:
+// After writing the first two test files manually to establish patterns, I used AI to scaffold additional test suites for subsequent sprints. I reviewed each generated test, adjusted assertions where needed, and ran them against the live server to confirm they passed.
+
+// [GenAI Use] Ownership: 60%
+//
+// Test generation was the area where I leaned most heavily on AI. The initial patterns were mine, but subsequent test files were largely AI-generated with my review and adjustments.
+```
+
+---
+
+## Code Reviews (Sprints 14, 15)
+
+```js
+// [GenAI Use] Prompt:
+// "Review this teammate's branch against the sprint spec. Check for design system compliance (correct CSS variables, shared classes), regressions to files outside the sprint scope, and any bugs or typos."
+
+// [GenAI Use] LLM Response Start
+// The LLM identified issues including out-of-scope file regressions, incorrect CSS variable names, missing base classes, invisible hover states, and indentation inconsistencies.
+// [GenAI Use] LLM Response End
+
+// [GenAI Use] Reflection:
+// I used Claude Code to systematically diff teammate branches against main and the sprint spec. AI caught issues I might have missed in manual review (like a CSS variable that didn't exist). I verified each finding before applying fixes.
+
+// [GenAI Use] Ownership: 80%
+//
+// AI was used as a review tool — I directed what to look for and verified all findings thoroughly. The fixes themselves were straightforward once the issues were identified (typos or small edge cases to handle).
+```
+
+
