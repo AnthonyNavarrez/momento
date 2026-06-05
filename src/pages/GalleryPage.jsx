@@ -160,9 +160,21 @@ export function GalleryPage() {
                                     {photo.caption && (
                                         <p className="gallery-card-caption">{photo.caption}</p>
                                     )}
-                                    <p className="gallery-card-date">
-                                        {new Date(photo.createdAt).toLocaleDateString()}
-                                    </p>
+                                    <div className="gallery-card-meta">
+                                        <p className="gallery-card-date">
+                                            {new Date(photo.createdAt).toLocaleDateString()}
+                                        </p>
+                                        <span
+                                            className={[
+                                                'gallery-card-visibility',
+                                                photo.isPublic
+                                                    ? 'gallery-card-visibility-public'
+                                                    : 'gallery-card-visibility-private',
+                                            ].join(' ')}
+                                        >
+                                            {photo.isPublic ? 'Public' : 'Private'}
+                                        </span>
+                                    </div>
                                     {photo.tags && photo.tags.length > 0 && (
                                         <div className="gallery-card-tags">
                                             {photo.tags.map((tag, i) => (
