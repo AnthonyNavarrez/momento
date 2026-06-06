@@ -299,4 +299,67 @@ Generative AI was primarily used for planning implementation approaches, scaffol
 // AI was used as a review tool — I directed what to look for and verified all findings thoroughly. The fixes themselves were straightforward once the issues were identified (typos or small edge cases to handle).
 ```
 
+---
+
+# Amy Koski (am-one-y) - Authored Feature Disclosures
+
+## Notes
+
+Prompts below are reconstructed from memory as exact transcripts were not preserved. I mainly used the GPT-5 mini model to generate code. I thoroughly reviewed, tested, and adjusted all generated code before adding it, or wrote the code myself based on its suggestions.
+
+## Overall Ownership Estimate
+
+I feel ownership over approximately 75% of the code I personally committed.
+
+I mainly used GenAI for styling, test generation, and implementation guidance. I reviewed all generated code, adjusted it as necessary, and made sure it followed project specifications before implementing it. GenAI was unnecessary for Sprint 1 and Sprint 14, as they had features I found easier to manually validate by implementing them myself.
+
+## Sprint 1 Backend Setup
+
+No GenAI was used for this sprint.
+
+---
+
+## Sprint 6 Photo Pinning on the Map
+
+```js
+// [GenAI Use] Prompt:
+// "Create a simple modal that appears when the user clicks on the map that includes a file input for selecting a photo, text input for an optional caption, a display of the selected lat/lng (read-only), and a submit and cancel button, and style it according to the style of other pages."
+
+// [GenAI Use] LLM Response Start
+// The LLM created a component that included the requested features and created CSS styles for the modal and its sections.
+// [GenAI Use] LLM Response End
+
+// [GenAI Use] Reflection:
+// Each time I added a component to the modal or the map, I iteratively generated CSS styling that matched the current appearance. Once I wired the modal to the click logger and it was able to appear on screen, I validated and adjusted its appearance and function manually. 
+
+// [GenAI Use] Ownership: 75%
+//
+// I used the base code for the modal to then add on, test, and debug features myself using useStates. AI was mainly used for styling and validating implementation approaches.
+```
+
+---
+
+## Sprint 6 E2E Testing
+
+```js
+// [GenAI Use] Prompt:
+// "Write E2E tests following the same patterns as test_sprint4_photos.py and conftest.py. Make tests covering that uploading a photo that returns a 201 exit code, that GET /api/photos returns the photo with correct location.lat and location.lng, that the imageUrl in the response starts with /uploads/, uploading multiple photos returns them sorted by createdAt in descending order, and that you can GET the image URL when uploading a photo."
+
+// [GenAI Use] LLM Response Start
+// The LLM generated pytest test cases covering the sprint features prompted, using the suggested patterns from conftest
+// [GenAI Use] LLM Response End
+
+// [GenAI Use] Reflection:
+// The AI generated the test cases, and I then read over them to make sure their assertations were accurate and ran the code against the server to make sure they passed. When they didn't, I manually debugged the test cases' approaches to ensure they were actually recieving responses from the server.
+
+// [GenAI Use] Ownership: 65%
+//
+// The AI generated initial tests, and I reviewed and adjusted the tests before committing.
+```
+
+---
+
+## Sprint 14 Landing and Explore Page Restyle
+
+No GenAI was used for this sprint.
 
