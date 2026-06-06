@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { getToken } from '../context/AuthContext'
 
 const api = axios.create({
   baseURL: '/api'
@@ -7,7 +8,7 @@ const api = axios.create({
 // Interceptor: automatically attach JWT token to every request
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token')
+    const token = getToken()
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }

@@ -1,9 +1,8 @@
 """
-E2E tests for Sprint 10 — Search & Filtering API.
-
-Requires the Express backend to be running on port 5001.
+[GenAI Use] Prompt:
+Write a pytest E2E test file for the GET /api/photos/search endpoint following the same pattern as tests/test_sprint4_photos.py. the tests should cover search by caption text, search by tag text, filter by single tag, filter by multiple comma-separated tags, search with no results, date range filter, pagination, and auth required
 """
-
+# [GenAI Use] LLM Response Start
 import io
 import json
 import time
@@ -143,3 +142,9 @@ class TestSearchPhotos:
             f"{base_url}/api/photos/search", params={"q": "test"}
         )
         assert resp.status_code == 401
+# [GenAI Use] LLM Response End
+"""
+[GenAI Use] Reflection:
+I reviewed the generated test file and found verified each test case covered the right 
+boundary condition and asserts that every returned photo actually contains the tag
+"""

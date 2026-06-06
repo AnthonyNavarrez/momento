@@ -369,3 +369,63 @@ No GenAI was used for this sprint.
 
 No GenAI was used for this sprint.
 
+---
+
+# Anthony Navarrez (AnthonyNavarrez) - Authored Feature Disclosures
+
+## Notes
+
+Prompts below are reconstructed from memory as exact transcripts were not preserved. I used Claude Code (CLI) as my primary GenAI tool throughout the project. My workflow was to draft an idea of how to tackle a feature my self and provide pseudocode, I then explicitly prompted to not reveal a full answer, I asked to evluate my apporach for weak spots and compare it with best practice. I also asked for general syntax help. 
+
+## Overall Ownership Estimate
+
+I feel ownership over approximately 75% of the code I personally committed.
+
+Generative AI was primarily used for evaluating and refactoring my original approaches, providing boilerplate code, generating tests from existing patterns, and debugging. I explicitly ask to not reveal a full answer but instead ask me questions to guide me on a better trajectory.
+
+---
+
+## Sprint 5 Frontend layout routing
+
+```js
+// [GenAI Use] Prompt:
+// I need to set up the frontend for Momento. I need an Axios instance with a request  interceptor that attaches a JWT token from localStorage to every outgoing request. I also need a React Context that provides shared auth state (user, token, loading) with login() and logout() functions, and on mount validates any stored token by calling GET /api/auth/me. I need a ProtectedRoute component that redirects unauthenticated  users, a Navbar that conditionally renders based on auth state, and React Router wiring in App.jsx would i approach this like ... , dont reveal the full implementation
+
+// [GenAI Use] LLM Response Start
+// The LLM suggested an Axios instance with a request interceptor reading from localStorage, an AuthProvider using createContext and useEffect for token validation on mount, login and logout functions managing both localStorage and React state, a ProtectedRoute using Navigate from React Router, and a Navbar consuming useAuth to conditionally render links.
+// [GenAI Use] LLM Response End
+
+// [GenAI Use] Reflection:
+// I reviewed the generated AuthContext carefully and caught that the loading state was being set to false immediately on mount before the async token validation completed, which would have caused a flash of unauthenticated content on every refresh. I corrected the initialization to loading: true and ensured setLoading(false) was only called after the GET /api/auth/me request settled in both the then and catch branches
+
+// [GenAI Use] Ownership: 80%
+//
+// The AI reaffired some of my ideas but also redirected me towards better approaches and helped me with boilderplate + syntax
+```
+
+---
+
+## sprint 10 Search Filtering landing
+
+```js
+// [GenAi Use] Prompt:
+// Write a pytest E2E test file for the GET /api/photos/search endpoint following the same pattern as tests/test_sprint4_photos.py. the tests should cover search by caption text, search by tag text, filter by single tag, filter by multiple comma-separated tags, search with no results, date range filter, pagination, and auth required
+
+// [GenAI Use] LLM Response Start
+// The LLM generated a TestSearchPhotos class with a reusable _upload helper method that creates a minimal valid JPEG and posts it to the API, eight test functions each targeting a specific filter case, strong per-photo assertions on tag filters, boundary condition tests for no results and auth enforcement, and pytest fixture injection for base_url and auth_header. [GenAI Use] LLM Response End
+
+// [GenAI Use] Reflection:
+// I reviewed each test case against the sprint spec to verify they were an adequate specification of the problem. The generated tests covered the individual filter cases well but I accepted them without thinking through every edge case myself. I did not add a test for combined filters sent simultaneously, which now I realize allows for future changes to possibly pass the test suite 
+
+// [GenAI Use] Ownership: 50%
+//
+// The AI generated the tests based on the cases i orginilly provided, and I reviewed and adjusted the tests before committing.
+```
+
+---
+
+## Sprint 12 design system navbar
+
+AI was mainly used for general CSS syntax questions
+
+---

@@ -54,3 +54,7 @@ export function useAuth() {
     }
     return context;
 }
+
+export function getToken() {                                                                           
+    return localStorage.getItem('token')
+  }
