@@ -16,6 +16,12 @@ const formatPhotoResponse = (photo, userId = null) => {
     };
 };
 
+const getPhotoOwnerId = (photo) => photo.user._id || photo.user;
+
+const isPhotoOwner = (photo, userId) => (
+    userId && String(getPhotoOwnerId(photo)) === String(userId)
+);
+
 const uploadPhoto = async (req, res) => {
     try {
         if (!req.file) {
@@ -87,19 +93,19 @@ const getPublicPhotos = async (req, res) => {
 
 const getPhotoById = async (req, res) => {
     try {
-        const photo = await Photo.findById(req.params.id).populate('user', 'username');
+        const photoDocument = await Photo.findById(req.params.id).populate('user', 'username');
 
-        if (!photo) {
+        if (!photoDocument) {
             return res.status(404).json({ message: 'Photo not found' });
         }
 
-        if (photo.isPublic) {
-            return res.json(formatPhotoResponse(photo, req.user?.id));
+        if (photoDocument.isPublic) {
+            return res.json(formatPhotoResponse(photoDocument, req.user?.id));
         }
 
-        const ownerId = photo.user._id || photo.user;
-        if (req.user && String(ownerId) === String(req.user.id)) {
-            return res.json(formatPhotoResponse(photo, req.user.id));
+        // Private photos are only part of the API contract for their owner.
+        if (isPhotoOwner(photoDocument, req.user?.id)) {
+            return res.json(formatPhotoResponse(photoDocument, req.user.id));
         }
 
         return res.status(403).json({ message: 'Not authorized to view this photo' });
