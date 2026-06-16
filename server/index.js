@@ -50,7 +50,7 @@ app.use((err, req, res, next) => {
 const frontendDist = path.join(__dirname, '..', 'dist');
 if (fs.existsSync(frontendDist)) {
     app.use(express.static(frontendDist));
-    app.get('*', (req, res) => {
+    app.get(/.*/, (req, res) => {
         res.sendFile(path.join(frontendDist, 'index.html'));
     });
 }
