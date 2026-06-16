@@ -1,5 +1,8 @@
 // [GenAI Use] Detailed prompt, LLM response, reflection, and ownership notes for
 // AI-assisted backend work are documented in ../GENAI_USE.md.
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
@@ -42,6 +45,15 @@ app.use((err, req, res, next) => {
     }
     next(err);
 });
+
+// Serve React frontend in production
+const frontendDist = path.join(__dirname, '..', 'dist');
+if (fs.existsSync(frontendDist)) {
+    app.use(express.static(frontendDist));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(frontendDist, 'index.html'));
+    });
+}
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

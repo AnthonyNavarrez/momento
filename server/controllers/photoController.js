@@ -1,7 +1,5 @@
-const fs = require('fs');
-const path = require('path');
 const Photo = require('../models/Photo');
-const { normalizeUploadedImage } = require('../config/imageProcessing');
+const cloudinary = require('../config/cloudinary');
 
 const formatPhotoResponse = (photo, userId = null) => {
     const data = photo.toObject ? photo.toObject() : photo;
@@ -34,11 +32,9 @@ const uploadPhoto = async (req, res) => {
             return res.status(400).json({ message: 'Latitude and longitude are required' });
         }
 
-        const filename = await normalizeUploadedImage(req.file);
-
         const photo = await Photo.create({
             user: req.user.id,
-            imageUrl: `/uploads/${filename}`,
+            imageUrl: req.file.path,
             location: { lat: Number(lat), lng: Number(lng) },
             caption: caption || '',
             tags: tags ? JSON.parse(tags) : [],
@@ -153,10 +149,10 @@ const deletePhoto = async (req, res) => {
             return res.status(403).json({ message: 'Not authorized to delete this photo' });
         }
 
-        const filePath = path.join(__dirname, '..', photo.imageUrl);
-        fs.unlink(filePath, (err) => {
-            if (err) console.error('Failed to delete file:', err.message);
-        });
+        // Cloudinary public_id is "momento/<filename>" (no extension)
+        const urlParts = photo.imageUrl.split('/');
+        const publicId = `momento/${urlParts[urlParts.length - 1].replace(/\.[^/.]+$/, '')}`;
+        await cloudinary.uploader.destroy(publicId).catch((err) => console.error('Cloudinary delete failed:', err.message));
 
         await photo.deleteOne();
 
