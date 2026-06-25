@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Just+Another+Hand&display=swap');
 
 :root {
   /* Primary Orange */
-  --color-primary: #D4713D;
-  --color-primary-hover: #BF6235;
-  --color-primary-light: #FDF0E9;
-  --color-primary-lighter: #FEF7F3;
+  --color-primary: #FF7A33;
+  --color-primary-hover: #E56E2E;
+  --color-primary-light: #FFF0E6;
+  --color-primary-lighter: #FFF8F3;
 
   /* Secondary Blue */
   --color-secondary: #3B7DD8;

@@ -43,6 +43,10 @@ export function LoginPage() {
 
     return(
         <div className="login-page">
+            <div className="login-bg" aria-hidden="true">
+                <img src="/La-beach.jpg" className="login-bg-img" alt="" />
+            </div>
+
             <div className="card login-card">
                 <h1 className="login-title">Welcome back</h1>
 

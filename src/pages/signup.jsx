@@ -51,6 +51,10 @@ export function SignupPage() {
 
     return (
         <div className="signup-page">
+            <div className="signup-bg" aria-hidden="true">
+                <img src="/La-beach.jpg" className="signup-bg-img" alt="" />
+            </div>
+
             <div className="card signup-card">
                 <h1 className="signup-title">Create your account</h1>
 

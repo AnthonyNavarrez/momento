@@ -11,7 +11,9 @@ export function NavBar() {
 
     return (
         <nav className="navbar">
-            <Link to={user ? '/map' : '/'} className="navbar-logo">Momento</Link>
+            <Link to={user ? '/map' : '/'} className="navbar-logo">
+                <img src="/momento-logo.svg" alt="Momento" className="navbar-logo-img" />
+            </Link>
 
             <div className="navbar-links">
                 {user && (

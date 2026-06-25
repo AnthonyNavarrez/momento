@@ -13,11 +13,16 @@
 }
 
 .navbar-logo {
-    font-weight: var(--font-bold);
-    font-size: var(--text-xl);
-    color: var(--color-primary);
     text-decoration: none;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo-img {
+    height: 33px;
+    width: auto;
+    display: block;
 }
 
 .navbar-links {

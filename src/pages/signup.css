@@ -1,4 +1,6 @@
 .signup-page {
+    position: relative;
+    overflow: hidden;
     min-height: calc(100svh - 64px);
     background-color: var(--color-bg-page);
     display: flex;
@@ -7,7 +9,23 @@
     padding: var(--space-12) var(--space-4);
 }
 
+.signup-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.signup-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .signup-card {
+    position: relative;
+    z-index: 1;
     width: 100%;
     max-width: 420px;
     padding: var(--space-8);
